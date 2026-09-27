@@ -3,7 +3,11 @@
 Until 1.0, the API may change in any minor release and every such change is
 listed with a migration note (DECISIONS.md D-04).
 
-## 0.1.2 — 2026-09-27
+## 0.1.3 — 2026-09-27
+
+`repository` added to package.json: npm refuses a provenance publish without it. 0.1.2 was tagged but never published, because its release run failed on that check; nothing else changed.
+
+## 0.1.2 — 2026-09-27 (tagged, never published)
 
 The server reports package.json's version to a host (0.1.1 said 0.0.0, from a hard-coded constant). Published through the release workflow with provenance.
 

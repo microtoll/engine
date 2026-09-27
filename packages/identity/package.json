@@ -1,8 +1,13 @@
 {
   "name": "@microtoll/identity",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Root key, unlock methods (passkey PRF and recovery code), trusted-device sessions, identity blob, step-up and deletion order. Web Crypto only.",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/microtoll/engine.git",
+    "directory": "packages/identity"
+  },
   "type": "module",
   "main": "./src/index.js",
   "types": "./types/index.d.ts",
@@ -25,6 +30,6 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@microtoll/crypto-core": "0.1.1"
+    "@microtoll/crypto-core": "0.1.2"
   }
 }
