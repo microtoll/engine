@@ -41,6 +41,20 @@ Each package carries its own `LICENSE`. Documentation is CC-BY-4.0.
 - `deploy/` — the hardened Compose file, the Dockerfile and the Nginx sample
   for `blind-store`.
 
+## How it was built, and support
+
+The engine was written with Claude Code (Anthropic's coding agent) from a
+security design the founder wrote and decided, milestone by milestone; the
+founder read and accepted every change, and every decision with its reasons
+is in `DECISIONS.md`. The checks are the ones you can run: the published
+test vectors (RFC 5869, RFC 8032, RFC 5903, RFC 7914, NIST CAVP, the X-Wing
+draft) through the public API, the frozen fixtures, the adversarial suite,
+and the threat model written down in `THREATMODEL.md`. An outside security
+audit is the next step, and the NGI/Restack route to fund it is in the plan.
+
+The packages are free and stay free. If they save you work, you can
+[sponsor the work on GitHub](https://github.com/sponsors/peterqbristol-ai).
+
 ## Working on it
 
 ```
