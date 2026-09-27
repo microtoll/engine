@@ -40,7 +40,7 @@ Plan §2: no promotion beyond the last two items.
        (`pqc-scan` 0.1.0 was published by hand, without provenance; its
        next version comes through `release.yml` once trusted publishing is
        set.)
-9. [~] **microtoll.dev** (Pages enabled and deployed 2026-09-27; the DNS record is the founder's): the domain's DNS to GitHub Pages; the Pages
+9. [x] **microtoll.dev** (done 2026-09-27: DNS at Cloudflare, the certificate issued after the domain was re-added, https enforced; `https://microtoll.dev/llms.txt` answers): the domain's DNS to GitHub Pages; the Pages
         workflow enabled for `docs/site`; `https://microtoll.dev/llms.txt`
         answers.
 10. [x] **security@microtoll.dev** exists and is read (2026-09-27: Cloudflare Email Routing to the founder's mailbox; DMARC `p=reject`).
