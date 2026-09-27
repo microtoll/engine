@@ -1,6 +1,6 @@
 {
   "name": "@microtoll/access",
-  "version": "0.1.2",
+  "version": "0.1.1",
   "description": "Sealed sharing of an object key to members, capabilities, share links, removal with key rotation, signed member rows and two-tier disclosure. Web Crypto only.",
   "license": "Apache-2.0",
   "repository": {
@@ -30,7 +30,7 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@microtoll/crypto-core": "0.1.2",
-    "@microtoll/identity": "0.1.2"
+    "@microtoll/crypto-core": "0.1.1",
+    "@microtoll/identity": "0.1.1"
   }
 }

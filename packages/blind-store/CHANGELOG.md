@@ -4,13 +4,9 @@ Until 1.0, the API may change in any minor release and every such change is
 listed with a migration note; the bytes the server stores and the messages
 it answers never change meaning once published (DECISIONS.md D-04).
 
-## 0.1.2 — 2026-09-27
+## 0.1.1 — 2026-09-27
 
-`repository` added to package.json: npm refuses a provenance publish without it. 0.1.1 was tagged but never published, because its release run failed on that check; nothing else changed.
-
-## 0.1.1 — 2026-09-27 (tagged, never published)
-
-No change to the code or the formats. Published through the release workflow with npm provenance (launch item 8); 0.1.0 had been published by hand.
+No change to the code or the formats. `repository` in package.json, which npm requires for a provenance publish. Published through the release workflow with npm provenance (launch item 8); 0.1.0 had been published by hand.
 
 ## 0.1.0 — 2026-09-27
 
