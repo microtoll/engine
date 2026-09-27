@@ -3,13 +3,16 @@
  * builds the three tools on the protocol in protocol.js; bin/microtoll-mcp.mjs
  * starts it on stdio.
  */
+import { createRequire } from 'node:module';
 import { createServer, PROTOCOL_VERSION } from './protocol.js';
 import { loadDocs, searchDocs, readDoc, formatSearch } from './docs.js';
 import { scaffold, renderScaffold } from './scaffold.js';
 
 export { createServer, PROTOCOL_VERSION, loadDocs, searchDocs, readDoc, formatSearch, scaffold, renderScaffold };
 
-export const VERSION = '0.0.0';
+// The version a host sees in initialize: package.json's, so it never drifts
+// (the published 0.1.1 said 0.0.0 from a hard-coded constant).
+export const VERSION = createRequire(import.meta.url)('../package.json').version;
 
 export const INSTRUCTIONS = [
   'Microtoll Engine: sign-in, key handling, access control and revocation for end-to-end-encrypted apps, as packages.',

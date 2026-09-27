@@ -44,7 +44,9 @@ Plan §2: no promotion beyond the last two items.
         workflow enabled for `docs/site`; `https://microtoll.dev/llms.txt`
         answers.
 10. [x] **security@microtoll.dev** exists and is read (2026-09-27: Cloudflare Email Routing to the founder's mailbox; DMARC `p=reject`).
-11. [ ] **The MCP server listed** in the MCP registry and the hosts'
-        directories, as `@microtoll/mcp`.
+11. [x] **The MCP server listed** in the MCP registry (2026-09-27, as
+        `io.github.microtoll/mcp`, package `@microtoll/mcp` 0.1.1); the
+        hosts' own directories (Claude, Cursor and the rest read the
+        registry) follow from it.
 12. [ ] One **Show HN** post. A **GitHub Sponsors** link. Nothing else.
 

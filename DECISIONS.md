@@ -19,6 +19,22 @@ this log; their numbers are not reused.
 
 ## Recorded
 
+**2026-09-27 — `io.github.microtoll/mcp` is listed in the official MCP
+registry (launch item 11).** `@microtoll/mcp` 0.1.1 published by hand; the
+listing made with `mcp-publisher` 1.8.1 from `packages/mcp/server.json`;
+verified from the registry (status active, package `@microtoll/mcp@0.1.1`,
+stdio) and by running the published package as a host would: it answers
+`initialize` and lists its three tools. What it took, for the record: the
+registry grants an organisation namespace only to an organisation Owner,
+and only when the sign-in token can read organisation membership. The
+device-flow sign-in cannot, so the founder made a classic personal access
+token with the single scope `read:org` (seven-day expiry, to be deleted)
+and signed in with `login github --token`. The organisation membership was
+also made public and the profile un-hidden along the way; neither turned
+out to be the cause. Found meanwhile: the published server reports its
+version as 0.0.0 (a hard-coded constant); fixed in the repository to read
+`package.json`, to go out with the next version.
+
 **2026-09-27 — D-48 decided: `@microtoll/mcp` versions on its own; the
 other five stay in lockstep (amends D-41).** The founder's choice, on the
 question of how to ship the one metadata line the MCP registry requires
