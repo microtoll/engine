@@ -19,6 +19,22 @@ this log; their numbers are not reused.
 
 ## Recorded
 
+**2026-09-27 — The engine is public: `microtoll/engine` from a snapshot;
+0.1.0 prepared; Pages deployed.** Launch items 5, 6 and 7 (the repository
+half): every package is at 0.1.0 without `"private"`, in lockstep (D-41),
+274 tests green with the database (`engine-record` `ebd99be`); the
+variable `PUBLISH_GATE_OPEN` is `true` on both repositories; the founder
+created the public repository `microtoll/engine` from the snapshot at
+`engine-record` `2237d37`, one commit `c951b2f` that says where the dated
+history is kept, nothing rewritten (D-01). GitHub Pages is enabled on it
+from `.github/workflows/pages.yml` with the custom domain `microtoll.dev`,
+and the first deployment succeeded; the domain answers once its DNS record
+points at `microtoll.github.io` (item 9, the founder's Cloudflare step).
+Still to do: the six packages' first publish by hand (item 7's tag, item
+8), `security@microtoll.dev` (item 10), the MCP listing (item 11). From
+this entry, development continues in the public repository; this private
+one is the dated record up to the snapshot and this entry.
+
 **2026-09-27 — `pqc-scan` v0.1.0 tagged and signed; trusted publishing set.**
 The founder made the release signing key (`~/.ssh/microtoll-release`,
 Ed25519, passphrase-protected; launch item 3), registered its public half
