@@ -4,6 +4,10 @@ Until 1.0, the API may change in any minor release and every such change is
 listed with a migration note; the bytes the package writes never change
 meaning (DECISIONS.md D-04).
 
+## 0.1.1 — 2026-09-27
+
+No change to the code or the formats. Published through the release workflow with npm provenance (launch item 8); 0.1.0 had been published by hand.
+
 ## 0.1.0 — 2026-09-27
 
 The first release. The publish gate opened on 2026-09-27 (`DECISIONS.md`, D-01); every package is published in lockstep at 0.1.0 (D-41). The formats are frozen from this version (D-04).

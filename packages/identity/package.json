@@ -1,6 +1,6 @@
 {
   "name": "@microtoll/identity",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Root key, unlock methods (passkey PRF and recovery code), trusted-device sessions, identity blob, step-up and deletion order. Web Crypto only.",
   "license": "Apache-2.0",
   "type": "module",
@@ -25,6 +25,6 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@microtoll/crypto-core": "0.1.0"
+    "@microtoll/crypto-core": "0.1.1"
   }
 }

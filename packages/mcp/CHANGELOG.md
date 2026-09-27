@@ -3,6 +3,10 @@
 Until 1.0, the API may change in any minor release and every such change is
 listed with a migration note (DECISIONS.md D-04).
 
+## 0.1.2 — 2026-09-27
+
+The server reports package.json's version to a host (0.1.1 said 0.0.0, from a hard-coded constant). Published through the release workflow with provenance.
+
 ## 0.1.1 — 2026-09-27
 
 Metadata only, for the MCP registry listing: `mcpName` (`io.github.microtoll/mcp`) and `repository` in package.json, and `server.json` beside it. Nothing in `src/` changed. A one-off step out of lockstep with the other packages, recorded in DECISIONS.md.

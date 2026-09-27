@@ -51,9 +51,13 @@ jobs:
       - name: The tag matches the package versions
         run: |
           tag="${GITHUB_REF_NAME#v}"
+          # The five lockstep packages carry the tag's version (D-41); mcp has
+          # its own (D-48) and is published whenever its version is new.
+          for p in crypto-core identity access mailbox blind-store; do
+            v=$(node -p "require('./packages/$p/package.json').version")
+            [ "$v" = "$tag" ] || { echo "packages/$p is $v, the tag is $tag"; exit 1; }
+          done
           for p in packages/*/package.json; do
-            v=$(node -p "require('./$p').version")
-            [ "$v" = "$tag" ] || { echo "$p is $v, the tag is $tag"; exit 1; }
             node -e "if (require('./$p').private) { console.error('$p is still private'); process.exit(1); }"
           done
       - run: npm ci
@@ -66,13 +70,18 @@ jobs:
       # The first version of each package was published by hand (npm only
       # offers trusted publishing on a package that already exists), so a
       # tag for a version already on the registry is recorded and skipped.
-      - name: Publish with provenance, skipping versions already on the registry
+      # Staged publishing (npm's recommended setting for a trusted publisher):
+      # each version is uploaded with provenance and appears only once the
+      # founder approves it on npm, so a compromised build run cannot publish
+      # on its own. Each package's own version is read, since mcp's differs.
+      - name: Stage each package with provenance, skipping versions already on the registry
         run: |
-          tag="${GITHUB_REF_NAME#v}"
           for p in crypto-core identity access mailbox blind-store mcp; do
-            if npm view "@microtoll/$p@$tag" version >/dev/null 2>&1; then
-              echo "@microtoll/$p@$tag is already published; skipped."
+            v=$(node -p "require('./packages/$p/package.json').version")
+            if npm view "@microtoll/$p@$v" version >/dev/null 2>&1; then
+              echo "@microtoll/$p@$v is already published; skipped."
             else
-              npm publish --workspace "@microtoll/$p" --provenance --access public
+              npm stage publish --workspace "@microtoll/$p" --provenance --access public
+              echo "Staged @microtoll/$p@$v: approve it on npmjs.com (Staged Packages)."
             fi
           done
