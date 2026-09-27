@@ -19,6 +19,18 @@ this log; their numbers are not reused.
 
 ## Recorded
 
+**2026-09-27 — The tag `v0.1.1` was moved once, on the founder's
+instruction (an exception to the no-rewrite rule, recorded).** The first
+release through the workflow (0.1.1 for the five lockstep packages, mcp
+0.1.2) failed before anything was staged: npm's provenance check requires
+`repository.url` in each package.json to name the repository the build
+ran in, and the five original packages had no `repository` field. The
+founder chose to delete the tag and re-create it on the fixed commit
+(`engine` `713da65` and the correction after it) rather than issue 0.1.2
+for a metadata field. No commit was rewritten; nothing had been published
+under the tag; the private record is untouched. The rule stands for
+everything else.
+
 **2026-09-27 — `io.github.microtoll/mcp` is listed in the official MCP
 registry (launch item 11).** `@microtoll/mcp` 0.1.1 published by hand; the
 listing made with `mcp-publisher` 1.8.1 from `packages/mcp/server.json`;
