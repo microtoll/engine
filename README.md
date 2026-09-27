@@ -53,7 +53,7 @@ and the threat model written down in `THREATMODEL.md`. An outside security
 audit is the next step, and the NGI/Restack route to fund it is in the plan.
 
 The packages are free and stay free. If they save you work, you can
-[sponsor the work on GitHub](https://github.com/sponsors/peterqbristol-ai).
+[sponsor the work on GitHub](https://github.com/sponsors/sealwright).
 
 ## Working on it
 
