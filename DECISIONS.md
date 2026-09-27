@@ -19,6 +19,27 @@ this log; their numbers are not reused.
 
 ## Recorded
 
+**2026-09-27 — The public presence checked from outside and inside, and
+put right.** The founder's GitHub account is now `sealwright`; the
+organisation `microtoll` has a description and the site as its website.
+On both public repositories: topics set; wiki and projects switched off;
+Dependabot alerts on; a code of conduct, and for `pqc-scan` a
+`CONTRIBUTING.md`; a root `LICENSE.md` on the engine stating the
+per-package split (D-02); the six package READMEs no longer say "not
+published"; the site's front page links the repositories, npm and the
+security address; GitHub release entries for `v0.1.0`, `v0.1.1` and the
+scanner's `v0.1.0`, with notes; and **rulesets** (launch item 2) that
+block deletion and force-pushes on `main` and deletion, moves and
+unsigned tags for `v*` on both repositories, with no bypass. On npm every
+package carries provenance except `pqc-scan` 0.1.0, published by hand
+without a repository link: 0.1.1 is prepared (`repository`, `homepage`,
+`bugs`, `keywords`; `pqc-scan` `04a3aba`) and waits on the founder's
+signed tag and approval. Keywords for the six engine packages go out with
+their next version. The Sponsors profile exists with tiers and the
+button shows on both repositories. Two private repositories stay as they
+are: `engine-record` (this dated history) and `microtoll/microtoll` (an
+unrelated project of the founder's, README only).
+
 **2026-09-27 — Launch item 8 done: every package on npm with provenance.**
 The signed tag `v0.1.1` (re-created on the fixed commit) ran the release
 workflow: the full check against a database, then each package staged with

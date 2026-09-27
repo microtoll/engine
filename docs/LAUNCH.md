@@ -6,7 +6,10 @@ Plan §2: no promotion beyond the last two items.
 
 1. [x] **D-01 recorded open** in `DECISIONS.md`: the IP and employment
        checks have passed. (2026-09-27.)
-2. [ ] **The repository** on GitHub, private first; this history pushed; the
+2. [x] **The repository** on GitHub, private first; this history pushed; the
+       licences present; branch protection on `main` (done 2026-09-27 as
+       rulesets on both public repositories: no deletion or force-push on
+       `main`; `v*` tags cannot be deleted, moved or unsigned). Original text: the
        licences present; branch protection on `main`. (Pushed 2026-09-27 and
        moved the same day into the `microtoll` organisation, private:
        `microtoll/engine-record` holds this dated history, `microtoll/pqc-scan`
