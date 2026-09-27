@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__NAME__</title>
+<style>
+  :root { color-scheme: light dark; font-family: system-ui, sans-serif; }
+  body { max-width: 46rem; margin: 2rem auto; padding: 0 1rem; line-height: 1.45; }
+  h1 { font-size: 1.4rem; }
+  fieldset { border: 1px solid #8884; border-radius: 6px; margin: 1rem 0; padding: 0.75rem 1rem; }
+  legend { font-weight: 600; }
+  button { margin: 0.2rem 0.3rem 0.2rem 0; padding: 0.35rem 0.6rem; }
+  input, textarea { padding: 0.35rem; width: 100%; box-sizing: border-box; font-family: ui-monospace, monospace; }
+  textarea { min-height: 8rem; }
+  pre { background: #8881; padding: 0.6rem; border-radius: 6px; white-space: pre-wrap; word-break: break-all; font-size: 0.85rem; }
+  li { margin: 0.3rem 0; }
+  .note { color: #888; font-size: 0.85rem; }
+</style>
+<script type="importmap">
+{ "imports": {
+  "@microtoll/crypto-core": "/node_modules/@microtoll/crypto-core/src/index.js",
+  "@microtoll/identity": "/node_modules/@microtoll/identity/src/index.js",
+  "@microtoll/access": "/node_modules/@microtoll/access/src/index.js"
+} }
+</script>
+</head>
+<body>
+<h1>__NAME__</h1>
+<p>End-to-end-encrypted notes on Microtoll Engine. The server holds sealed
+blobs, hashed capabilities and the shelf each note is filed on; it cannot
+read a note or say who owns one. Read <code>notes.js</code> for the model,
+and put the engine's honest limits in your own about page.</p>
+
+<fieldset><legend>1. Start</legend>
+  <button id="boot">Boot</button>
+  <div id="signed-out">
+    <button id="signup">Sign up with a recovery code</button>
+    <button id="signup-passkey">Sign up with a passkey + recovery code</button>
+    <p class="note">Or unlock an account you made before:</p>
+    <input id="code" placeholder="recovery code">
+    <button id="unlock">Unlock</button>
+  </div>
+  <p id="recovery"></p>
+  <div id="signed-in" hidden><button id="lock">Lock</button> <button id="delete-account">Delete account</button></div>
+</fieldset>
+
+<fieldset><legend>2. Your notes</legend>
+  <input id="new-title" placeholder="a title"> <button id="new">New note</button>
+  <ul id="notes"></ul>
+  <div id="editor" hidden>
+    <input id="note-id" type="hidden">
+    <input id="title" placeholder="title">
+    <textarea id="body" placeholder="body"></textarea>
+    <button id="save">Save</button>
+  </div>
+</fieldset>
+
+<fieldset><legend>3. Share and open</legend>
+  <input id="share-url" placeholder="the share link appears here" readonly>
+  <input id="link" placeholder="paste a share link (or its token) here">
+  <button id="open-link">Open link</button>
+  <div id="members-panel" hidden>
+    <p><b>Members</b> (the owner can remove one: every key rotates)</p>
+    <ul id="members"></ul>
+  </div>
+</fieldset>
+
+<fieldset><legend>Log</legend><pre id="log"></pre></fieldset>
+
+<script type="module" src="./page.js"></script>
+</body>
+</html>

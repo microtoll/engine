@@ -1,0 +1,11 @@
+# Every text file keeps LF line endings on every platform, so fixtures and
+# hashes never differ between a Windows checkout and CI.
+* text=auto eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.js text eol=lf
+*.mjs text eol=lf
+*.ts text eol=lf
+*.yml text eol=lf
+*.png binary
+*.wav binary

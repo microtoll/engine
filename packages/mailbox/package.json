@@ -1,0 +1,31 @@
+{
+  "name": "@microtoll/mailbox",
+  "version": "0.1.0",
+  "description": "Pairwise unlinkable delivery: direct invitations dropped under a mailbox label only the two parties can compute, signed with the recipient and the mailbox bound in, sealed to the recipient. Web Crypto only.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./src/index.js",
+  "types": "./types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "default": "./src/index.js"
+    }
+  },
+  "files": [
+    "src",
+    "types",
+    "README.md",
+    "CHANGELOG.md",
+    "FORMATS.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=24"
+  },
+  "sideEffects": false,
+  "dependencies": {
+    "@microtoll/crypto-core": "0.1.0",
+    "@microtoll/identity": "0.1.0"
+  }
+}

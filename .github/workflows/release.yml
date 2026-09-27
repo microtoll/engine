@@ -1,0 +1,70 @@
+# The release (DECISIONS.md D-41): on a signed v* tag, the full check
+# against Postgres, then every package published to npm with provenance
+# through GitHub's OIDC -- no long-lived token in the repository.
+#
+# INERT UNTIL THE GATE OPENS. It runs only when the repository variable
+# PUBLISH_GATE_OPEN is "true", which the founder sets after recording in
+# DECISIONS.md that the IP check (D-01) has passed -- a second lock on the
+# same door as the no-remote rule. Three more things must be true for a
+# publish to succeed, each a launch-checklist item: the packages are no
+# longer "private": true, the tag is signed and matches the versions, and
+# the npm organisation trusts this workflow for provenance.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+  id-token: write   # npm provenance
+
+jobs:
+  release:
+    if: ${{ vars.PUBLISH_GATE_OPEN == 'true' }}
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: test
+        ports:
+          - 15433:5432
+        options: >-
+          --health-cmd "pg_isready -U test -d test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    env:
+      CI: 'true'
+      BLIND_STORE_TEST_DB: postgres://test:test@127.0.0.1:15433/test
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '24'
+          cache: npm
+          registry-url: https://registry.npmjs.org
+      # The tag names the version every package carries (lockstep, D-41).
+      - name: The tag matches the package versions
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          for p in packages/*/package.json; do
+            v=$(node -p "require('./$p').version")
+            [ "$v" = "$tag" ] || { echo "$p is $v, the tag is $tag"; exit 1; }
+            node -e "if (require('./$p').private) { console.error('$p is still private'); process.exit(1); }"
+          done
+      - run: npm ci
+      - run: psql "$BLIND_STORE_TEST_DB" -v ON_ERROR_STOP=1 -f packages/blind-store/schema/000_blind_store.sql
+      - run: psql "$BLIND_STORE_TEST_DB" -v ON_ERROR_STOP=1 -c "ALTER ROLE blind_store_app LOGIN PASSWORD 'apptest'"
+      - run: npm run check
+      - run: npm run docs
+      # Dependencies first, dependents after, so a fresh install of any one
+      # of them resolves on the registry.
+      - name: Publish with provenance
+        run: |
+          for p in crypto-core identity access mailbox blind-store mcp; do
+            npm publish --workspace "@microtoll/$p" --provenance --access public
+          done

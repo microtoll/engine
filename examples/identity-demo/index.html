@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Microtoll identity demo</title>
+<style>
+  :root { color-scheme: light dark; font-family: system-ui, sans-serif; }
+  body { max-width: 44rem; margin: 2rem auto; padding: 0 1rem; line-height: 1.45; }
+  h1 { font-size: 1.4rem; }
+  fieldset { border: 1px solid #8884; border-radius: 6px; margin: 1rem 0; padding: 0.75rem 1rem; }
+  legend { font-weight: 600; }
+  button { margin: 0.2rem 0.3rem 0.2rem 0; padding: 0.4rem 0.7rem; }
+  input { padding: 0.35rem; width: 100%; box-sizing: border-box; font-family: ui-monospace, monospace; }
+  pre { background: #8881; padding: 0.6rem; border-radius: 6px; white-space: pre-wrap; word-break: break-all; font-size: 0.85rem; }
+  .state { display: grid; grid-template-columns: max-content 1fr; gap: 0.2rem 1rem; font-size: 0.9rem; }
+  .code { font-family: ui-monospace, monospace; font-size: 1.1rem; letter-spacing: 0.05em; }
+  .note { color: #888; font-size: 0.85rem; }
+</style>
+</head>
+<body>
+<h1>Microtoll identity demo</h1>
+<p>Creates, locks, restores and deletes an identity using only
+<code>@microtoll/crypto-core</code> and <code>@microtoll/identity</code>. The
+"server" is the package's in-process stand-in running in this page (until
+<code>blind-store</code> exists); reload the page and it forgets everything,
+while the trusted-device session and the device record survive in this
+browser's storage.</p>
+
+<fieldset><legend>State</legend>
+  <div class="state" id="state"></div>
+</fieldset>
+
+<fieldset><legend>1. Start</legend>
+  <button id="boot">Boot (restore the trusted session, or start as a guest)</button>
+  <span class="note" id="boot-note"></span>
+</fieldset>
+
+<fieldset><legend>2. Register</legend>
+  <button id="register-passkey">Register with a passkey + recovery code</button>
+  <button id="register-code">Register with a recovery code only</button>
+  <p class="note">A passkey needs a secure context (localhost counts) and an authenticator with the PRF extension. The recovery-code path works anywhere.</p>
+  <p id="recovery" class="code"></p>
+</fieldset>
+
+<fieldset><legend>3. Lock and unlock</legend>
+  <button id="lock">Lock</button>
+  <button id="unlock-passkey">Unlock with this device's passkey</button>
+  <button id="unlock-discoverable">Unlock with any passkey (new browser)</button>
+  <input id="code" placeholder="recovery code, e.g. ABCD-EFGH-…">
+  <button id="unlock-code">Unlock with the recovery code</button>
+</fieldset>
+
+<fieldset><legend>4. The private blob</legend>
+  <input id="note" placeholder="a note kept in the sealed identity blob">
+  <button id="save-note">Save note (read-modify-write, compare-and-swap)</button>
+</fieldset>
+
+<fieldset><legend>5. Sensitive actions (fresh proof of the person)</legend>
+  <button id="add-passkey">Add a passkey</button>
+  <button id="rotate">New recovery code</button>
+  <button id="signout-all">Sign out everywhere</button>
+  <button id="delete">Delete the account</button>
+</fieldset>
+
+<fieldset><legend>Log</legend>
+  <pre id="log"></pre>
+</fieldset>
+
+<script type="module" src="./demo.js"></script>
+</body>
+</html>

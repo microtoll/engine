@@ -1,0 +1,30 @@
+{
+  "name": "@microtoll/mcp",
+  "version": "0.1.0",
+  "description": "Microtoll Engine inside your coding tool: docs search, page reading and a project scaffold over the Model Context Protocol (stdio). Zero dependencies, no network, nothing runs but what is in src/.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./src/index.js",
+  "types": "./types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "default": "./src/index.js"
+    }
+  },
+  "bin": {
+    "microtoll-mcp": "bin/microtoll-mcp.mjs"
+  },
+  "files": [
+    "src",
+    "bin",
+    "generated",
+    "types",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=24"
+  }
+}

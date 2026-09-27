@@ -1,0 +1,27 @@
+{
+  "name": "@microtoll/crypto-core",
+  "version": "0.1.0",
+  "description": "Primitives, labelled key derivation and versioned wire formats. Web Crypto only; no dependencies.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./src/index.js",
+  "types": "./types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "default": "./src/index.js"
+    }
+  },
+  "files": [
+    "src",
+    "types",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=24"
+  },
+  "sideEffects": false,
+  "dependencies": {}
+}

@@ -1,0 +1,24 @@
+{
+  "name": "microtoll-engine",
+  "private": true,
+  "description": "Microtoll Engine monorepo: secure-backend packages for end-to-end-encrypted apps.",
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "test": "node --test \"packages/*/test/*.test.mjs\" \"examples/*/test/*.test.mjs\" \"docs/test/*.test.mjs\"",
+    "typecheck": "tsc -p tsconfig.json",
+    "check": "npm run typecheck && npm run docs && npm test",
+    "db:up": "node scripts/test-db.mjs up",
+    "db:down": "node scripts/test-db.mjs down",
+    "db:reset": "node scripts/test-db.mjs reset",
+    "docs": "node docs/build.mjs"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3"
+  }
+}

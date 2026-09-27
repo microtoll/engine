@@ -1,0 +1,47 @@
+{
+ "source": "Frozen by test/tooling/generate-frozen-recovery-v3.mjs on 2026-09-27 under namespace \"example\". Never regenerated or edited.",
+ "namespace": "example",
+ "version": 3,
+ "codes": [
+  {
+   "name": "all zero",
+   "bytes": "00000000000000000000000000000000",
+   "code": "0000-0000-0000-0000-0000-0000-000"
+  },
+  {
+   "name": "all ones",
+   "bytes": "ffffffffffffffffffffffffffffffff",
+   "code": "ZZZZ-ZZZZ-ZZZZ-ZZZZ-ZZZZ-ZZZZ-ZWB"
+  },
+  {
+   "name": "first bit only",
+   "bytes": "80000000000000000000000000000000",
+   "code": "G000-0000-0000-0000-0000-0000-005"
+  },
+  {
+   "name": "last bit only",
+   "bytes": "00000000000000000000000000000001",
+   "code": "0000-0000-0000-0000-0000-0000-04P"
+  },
+  {
+   "name": "counting",
+   "bytes": "000102030405060708090a0b0c0d0e0f",
+   "code": "000G-40R4-0M30-E209-185G-R38E-1WF"
+  },
+  {
+   "name": "counting down",
+   "bytes": "fffefdfcfbfaf9f8f7f6f5f4f3f2f1f0",
+   "code": "ZZZF-VZ7V-ZBWZ-HXZP-YQTF-7WQH-Y04"
+  },
+  {
+   "name": "alternating",
+   "bytes": "55aa55aa55aa55aa55aa55aa55aa55aa",
+   "code": "APN5-BAJN-N9AT-MNDA-APN5-BAJN-N80"
+  },
+  {
+   "name": "spread",
+   "bytes": "0f2c496683a0bddaf714314e6b88a5c2",
+   "code": "1WP4-JSM3-M2YX-NXRM-6576-Q255-R8J"
+  }
+ ]
+}

@@ -1,0 +1,37 @@
+{
+ "source": "Frozen by test/tooling/generate-frozen-fixtures-v3.mjs on 2026-09-27 under namespace \"example\". Never regenerated or edited.",
+ "namespace": "example",
+ "account": "frozen-v2.json identity (root key and sealing key)",
+ "labels": {
+  "unlockLabel": "example/aad/unlock-label/v3"
+ },
+ "methodLabels": {
+  "passkeyA": {
+   "credentialId": "c0c1c2c3c4c5c6c7c8c9cacbcccdcecf",
+   "context": "6578616d706c652f6161642f756e6c6f636b2d6c6162656c2f76330001d4f376ea1200f6ee38e9d24177b882cf10532899277b7eb4b6e68fa13eeaf5fe",
+   "label": "phone",
+   "sealed": "01ab55999f70e01058d262c545579a394c6eb4eade3da595152401f8b8bdd1c76bf2"
+  },
+  "passkeyB": {
+   "credentialId": "d0d1d2d3d4d5d6d7d8d9dadbdcdddedf",
+   "context": "6578616d706c652f6161642f756e6c6f636b2d6c6162656c2f763300017cf56de794590f24d5b83f0baaf79151064695a7e11638c2f020233c69a12e71",
+   "label": "laptop",
+   "sealed": "011a275f53ecd01474eb8fcaca6ac6879ae532a79642a53f0cf2d6010c985f7bfe7c39"
+  },
+  "recoveryCode": {
+   "context": "6578616d706c652f6161642f756e6c6f636b2d6c6162656c2f76330002",
+   "label": "paper in the drawer",
+   "sealed": "01b71433f171495388dbb8c6738d4252ed2f80aa4b929dbb17d967b556807a41fc92881c0735466de5b557b7425bc38d"
+  }
+ },
+ "recoveryMethod": {
+  "type": "recovery-code",
+  "codeVersion": 3,
+  "codeBytes": "315c87b2dd08335e89b4df0a35608bb6",
+  "code": "65E8-FCPX-10SN-X2DM-VW53-AR4B-PR5",
+  "pbkdf2Salt": "f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff",
+  "lookupHash": "63d8d59b0cfc44a36495dd1ee516ad6bacf69ec0281cba922e1a5f6b88b92849",
+  "context": "6578616d706c652f6161642f756e6c6f636b2d6d6574686f642f7632000263d8d59b0cfc44a36495dd1ee516ad6bacf69ec0281cba922e1a5f6b88b92849",
+  "wrappedRootKey": "015aac5b6c4e3a910c6cfa4581226c71f953bb3e232ef73ef245da48a6b56a722d3e28e4559906265de5fae4d3c3087af86f753b5a4188a6bc7e4be79e"
+ }
+}

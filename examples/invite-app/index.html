@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Microtoll invites</title>
+<style>
+  :root { color-scheme: light dark; font-family: system-ui, sans-serif; }
+  body { max-width: 46rem; margin: 2rem auto; padding: 0 1rem; line-height: 1.45; }
+  h1 { font-size: 1.4rem; }
+  fieldset { border: 1px solid #8884; border-radius: 6px; margin: 1rem 0; padding: 0.75rem 1rem; }
+  legend { font-weight: 600; }
+  button { margin: 0.2rem 0.3rem 0.2rem 0; padding: 0.35rem 0.6rem; }
+  input, textarea { padding: 0.35rem; width: 100%; box-sizing: border-box; font-family: ui-monospace, monospace; }
+  textarea { min-height: 6rem; }
+  pre { background: #8881; padding: 0.6rem; border-radius: 6px; white-space: pre-wrap; word-break: break-all; font-size: 0.85rem; }
+  li { margin: 0.3rem 0; }
+  .note { color: #888; font-size: 0.85rem; }
+</style>
+<script type="importmap">
+{ "imports": {
+  "@microtoll/crypto-core": "/packages/crypto-core/src/index.js",
+  "@microtoll/identity": "/packages/identity/src/index.js",
+  "@microtoll/access": "/packages/access/src/index.js",
+  "@microtoll/mailbox": "/packages/mailbox/src/index.js"
+} }
+</script>
+</head>
+<body>
+<h1>Microtoll invites</h1>
+<p>Inviting a known person <em>directly</em>: no link, nothing to forward.
+Share one note by link, press "remember people" on both sides, and from
+then on invite each other through mailboxes only the two of you can
+compute. The server sees labels and ciphertext; it cannot say who invited
+whom. Read <code>invites.js</code> for the whole model.</p>
+
+<fieldset><legend>1. Start</legend>
+  <button id="boot">Boot</button>
+  <div id="signed-out">
+    <button id="signup">Sign up with a recovery code</button>
+    <input id="code" placeholder="or a recovery code you already have">
+    <button id="unlock">Unlock</button>
+  </div>
+  <p id="recovery"></p>
+  <div id="signed-in"><label>Your name, as others see it: <input id="my-name" placeholder="Ada"></label> <button id="lock">Lock</button></div>
+</fieldset>
+
+<fieldset><legend>2. Notes</legend>
+  <input id="new-title" placeholder="a title"> <button id="new">New note</button>
+  <ul id="notes"></ul>
+  <div id="editor" hidden>
+    <input id="note-id" type="hidden"><input id="title" placeholder="title"><textarea id="body"></textarea><button id="save">Save</button>
+  </div>
+</fieldset>
+
+<fieldset><legend>3. Once by link, then directly</legend>
+  <input id="share-url" placeholder="the share link appears here" readonly>
+  <input id="link" placeholder="paste a share link here"> <button id="open-link">Open link</button>
+  <p><b>Contacts</b> (from "remember people" on a shared note)</p>
+  <ul id="contacts"></ul>
+  <div id="invitations-panel" hidden><p><b>Invitations you sent</b></p><ul id="invitations"></ul></div>
+</fieldset>
+
+<fieldset><legend>Log</legend><pre id="log"></pre></fieldset>
+<script type="module" src="./page.js"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+{
+  "name": "@microtoll/blind-store",
+  "version": "0.1.0",
+  "description": "The server that holds only what it cannot read: the challenge-response handshake, capability-authorised sealed objects with a coarse public selector, pointers, share links, mailbox drops, live watches, the sweep and the Postgres schema. A library with a thin reference server.",
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "main": "./src/index.js",
+  "types": "./types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "default": "./src/index.js"
+    }
+  },
+  "bin": {
+    "blind-store": "bin/blind-store.mjs"
+  },
+  "files": [
+    "src",
+    "bin",
+    "schema",
+    "types",
+    "README.md",
+    "CHANGELOG.md",
+    "DESIGN.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=24"
+  },
+  "dependencies": {
+    "pg": "8.23.0",
+    "ws": "8.21.3"
+  },
+  "devDependencies": {
+    "@microtoll/access": "0.1.0",
+    "@microtoll/crypto-core": "0.1.0",
+    "@microtoll/identity": "0.1.0"
+  }
+}

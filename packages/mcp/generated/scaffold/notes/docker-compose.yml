@@ -1,0 +1,65 @@
+# Scaffolded by @microtoll/mcp: Postgres with the engine schema, the
+# blind-store reference server from the published package, and nginx serving
+# this directory and forwarding /ws. Run `npm install` first (it fetches the
+# packages this Compose file mounts), then `docker compose up` and open
+# __ORIGIN__.
+#
+# LOCAL ONLY as written: fixed database passwords, the database reachable
+# only inside this network. For a deployment, see the engine's deploy/ kit.
+name: __NAME__
+
+services:
+  db:
+    image: postgres:17
+    environment:
+      - TZ=Etc/UTC
+      - PGTZ=UTC
+      - POSTGRES_USER=app_owner
+      - POSTGRES_DB=app
+      - POSTGRES_PASSWORD=${DB_OWNER_PASSWORD:-local-only-owner}
+      - BLIND_STORE_APP_PASSWORD=${DB_APP_PASSWORD:-local-only-app}
+    volumes:
+      - ./node_modules/@microtoll/blind-store/schema:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app_owner -d app"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  blind-store:
+    image: node:24-alpine
+    working_dir: /app
+    command: ["node", "node_modules/@microtoll/blind-store/bin/blind-store.mjs"]
+    user: node
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - ./:/app:ro
+    environment:
+      - BLIND_STORE_NAMESPACE=__NAMESPACE__
+      - BLIND_STORE_ALLOWED_ORIGINS=__ORIGIN__
+      - BLIND_STORE_COLLECTIONS={"notes":{"selectorLength":2}}
+      - BLIND_STORE_PORT=8020
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=blind_store_app
+      - DB_NAME=app
+      - DB_PASSWORD=${DB_APP_PASSWORD:-local-only-app}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    image: nginx:1.30-alpine
+    ports:
+      - "__PORT__:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./:/usr/share/nginx/html:ro
+    depends_on:
+      - blind-store

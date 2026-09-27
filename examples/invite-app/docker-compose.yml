@@ -1,0 +1,62 @@
+# The invite example: `docker compose up` here, then open
+# http://localhost:8089. The same three containers as the notes example
+# (which it builds on), with the invite page served and the mailbox in use.
+# EXAMPLE ONLY: fixed database passwords, the database unreachable from
+# outside this Compose network. A real deployment uses ../../deploy/.
+name: microtoll-invites
+
+services:
+  db:
+    image: postgres:17
+    environment:
+      - TZ=Etc/UTC
+      - PGTZ=UTC
+      - POSTGRES_USER=invites_owner
+      - POSTGRES_DB=invites
+      - POSTGRES_PASSWORD=${INVITES_DB_OWNER_PASSWORD:-example-only-owner}
+      - BLIND_STORE_APP_PASSWORD=${INVITES_DB_APP_PASSWORD:-example-only-app}
+    volumes:
+      - ../../packages/blind-store/schema/000_blind_store.sql:/docker-entrypoint-initdb.d/000_blind_store.sql:ro
+      - ../../packages/blind-store/schema/900_app_login.sh:/docker-entrypoint-initdb.d/900_app_login.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U invites_owner -d invites"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  blind-store:
+    build:
+      context: ../..
+      dockerfile: deploy/Dockerfile
+    user: node
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      - BLIND_STORE_NAMESPACE=invite-example
+      - BLIND_STORE_ALLOWED_ORIGINS=http://localhost:8089,http://127.0.0.1:8089
+      - BLIND_STORE_COLLECTIONS={"notes":{"selectorLength":2}}
+      - BLIND_STORE_PORT=8020
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=blind_store_app
+      - DB_NAME=invites
+      - DB_PASSWORD=${INVITES_DB_APP_PASSWORD:-example-only-app}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    image: nginx:1.30-alpine
+    ports:
+      - "8089:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ../:/usr/share/nginx/html/examples:ro
+      - ../../packages:/usr/share/nginx/html/packages:ro
+    depends_on:
+      - blind-store

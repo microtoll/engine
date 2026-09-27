@@ -1,0 +1,31 @@
+{
+  "name": "@microtoll/access",
+  "version": "0.1.0",
+  "description": "Sealed sharing of an object key to members, capabilities, share links, removal with key rotation, signed member rows and two-tier disclosure. Web Crypto only.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./src/index.js",
+  "types": "./types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "default": "./src/index.js"
+    }
+  },
+  "files": [
+    "src",
+    "types",
+    "README.md",
+    "CHANGELOG.md",
+    "FORMATS.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=24"
+  },
+  "sideEffects": false,
+  "dependencies": {
+    "@microtoll/crypto-core": "0.1.0",
+    "@microtoll/identity": "0.1.0"
+  }
+}

@@ -1,0 +1,18 @@
+node_modules/
+*.log
+.DS_Store
+Thumbs.db
+coverage/
+dist/
+*.tgz
+.env
+.env.*
+!.env.example
+# Deployment secrets are files, never committed (deploy/README.md).
+deploy/secrets/
+examples/*/secrets/
+# The built docs site (npm run docs); the source is docs/ and the repository's documents.
+docs/site/
+
+# Local notes for Claude Code; never committed (they name what the repository must not).
+CLAUDE.local.md

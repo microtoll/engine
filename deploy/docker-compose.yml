@@ -1,0 +1,94 @@
+# The blind-store reference deployment (DESIGN.md §5.3): Postgres on the
+# internal network only, the server built from this repository and hardened,
+# passwords from secret files, the schema and the service role's login
+# applied at first start. Deliberately without a superuser connection, a
+# root user, a read-write source mount, a public 5432 or access logs.
+#
+#   cp .env.example .env            # the namespace, origins and collections
+#   mkdir -p secrets
+#   openssl rand -base64 32 > secrets/postgres.password
+#   openssl rand -base64 32 > secrets/blind_store_app.password
+#   docker compose up -d
+#
+# TLS, the security headers and the per-address limits belong to the reverse
+# proxy in front: nginx.sample.conf.
+name: blind-store
+
+services:
+  db:
+    image: postgres:17
+    command: ["postgres", "-c", "shared_buffers=128MB", "-c", "max_connections=50"]
+    environment:
+      - TZ=Etc/UTC
+      - PGTZ=UTC
+      - POSTGRES_USER=${POSTGRES_USER:-blind_store_owner}
+      - POSTGRES_DB=${POSTGRES_DB:-blind_store}
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
+      - BLIND_STORE_APP_PASSWORD_FILE=/run/secrets/blind_store_app_password
+    secrets:
+      - postgres_password
+      - blind_store_app_password
+    # No `ports:` -- the database is reachable from the internal network only.
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ../packages/blind-store/schema/000_blind_store.sql:/docker-entrypoint-initdb.d/000_blind_store.sql:ro
+      - ../packages/blind-store/schema/900_app_login.sh:/docker-entrypoint-initdb.d/900_app_login.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 320M
+
+  blind-store:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    # Hardened: an unprivileged user, a read-only file system (only /tmp
+    # writable), no Linux capabilities, no privilege escalation, a memory
+    # limit.
+    user: node
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      - BLIND_STORE_NAMESPACE=${BLIND_STORE_NAMESPACE:?set the app's namespace in .env}
+      - BLIND_STORE_ALLOWED_ORIGINS=${BLIND_STORE_ALLOWED_ORIGINS:?set the allowed origins in .env}
+      - BLIND_STORE_COLLECTIONS=${BLIND_STORE_COLLECTIONS:-{}}
+      - BLIND_STORE_PORT=8020
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=blind_store_app
+      - DB_NAME=${POSTGRES_DB:-blind_store}
+      - DB_PASSWORD_FILE=/run/secrets/blind_store_app_password
+    secrets:
+      - blind_store_app_password
+    ports:
+      # Loopback only: the reverse proxy on this host terminates TLS and
+      # forwards to it. Never 0.0.0.0.
+      - "127.0.0.1:8020:8020"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 200M
+
+secrets:
+  postgres_password:
+    file: ./secrets/postgres.password
+  blind_store_app_password:
+    file: ./secrets/blind_store_app.password
+
+volumes:
+  pgdata:

@@ -1,0 +1,131 @@
+{
+ "source": "Frozen by test/tooling/generate-frozen-fixtures.mjs on 2026-09-27 under namespace \"example\". Never regenerated or edited.",
+ "namespace": "example",
+ "labels": {
+  "unlockMethod": "example/aad/unlock-method/v2",
+  "unlockLabel": "example/aad/unlock-label/v2",
+  "identityBlob": "example/aad/identity-blob/v2",
+  "session": "example/aad/session/v2",
+  "auth": "example/auth/v2"
+ },
+ "identity": {
+  "rootKey": "202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f",
+  "routingPublicKey": "57f5176610574412401b2c2630fac1077376f897dcc093ec4d00cca88d9828e6",
+  "routingHandle": "V_UXZhBXRBJAGywmMPrBB3N2-JfcwJPsTQDMqI2YKOY",
+  "identitySigningPublicKey": "157284b7ffccafeefefce21bfba4ffc23421862b33c96d1c6c23d357468e949b",
+  "sealingKeyJwk": {
+   "kty": "EC",
+   "crv": "P-256",
+   "d": "ngqlpl9oAL_8msi21UNqGkLVHQagM4rsF6K8UPRH38E",
+   "x": "aQURp4kI6hHWDBx7-eSk3KAp4V2YH4CTBPQAna0qP9g",
+   "y": "HYxaqUz8aSM-kbWbvT0sws-oy8MstB0jT2TFyp7lUDk"
+  },
+  "identityPublicKey": "04690511a78908ea11d60c1c7bf9e4a4dca029e15d981f809304f4009dad2a3fd81d8c5aa94cfc69233e91b59bbd3d2cc2cfa8cbc32cb41d234f64c5ca9ee55039"
+ },
+ "passkeyMethod": {
+  "type": "passkey-prf",
+  "credentialId": "c0c1c2c3c4c5c6c7c8c9cacbcccdcecf",
+  "prfSalt": "606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f",
+  "prfOutput": "a6cb6f988cb5ebda71efa7476a7a483c4faa7b9fdca44c5fd25986c57ee824bb",
+  "context": "6578616d706c652f6161642f756e6c6f636b2d6d6574686f642f76320001d4f376ea1200f6ee38e9d24177b882cf10532899277b7eb4b6e68fa13eeaf5fe",
+  "wrappedRootKey": "01402475d0f5c4c3d5589d6c2c5a47c5026207e34a62851ccb35c81db039d7d0e1c2c31179ddfc6b0ccf81bdbc693246dc585dfc98a3e280634a8e2cd4"
+ },
+ "recoveryMethod": {
+  "type": "recovery-code",
+  "codeBytes": "0f2c496683a0bddaf714314e6b88a5c2",
+  "code": "1WP4-JSM3-M2YX-NXRM-6576-Q255-R88",
+  "pbkdf2Salt": "e0e1e2e3e4e5e6e7e8e9eaebecedeeef",
+  "lookupHash": "de890326ae4447a106395c401bf7a748763b245786a2d64718f1bea54b1448ef",
+  "context": "6578616d706c652f6161642f756e6c6f636b2d6d6574686f642f76320002de890326ae4447a106395c401bf7a748763b245786a2d64718f1bea54b1448ef",
+  "wrappedRootKey": "015ad045d14abd21752c931bc8ed69372cfdfa439e5e3e2dd4d894ccda2c1ccd6def54d879a7412a39779f5b0ce26e592790c7d86875775da88a751928"
+ },
+ "methodLabels": {
+  "context": "6578616d706c652f6161642f756e6c6f636b2d6c6162656c2f76320057f5176610574412401b2c2630fac1077376f897dcc093ec4d00cca88d9828e6",
+  "sealed": {
+   "phone": "01758df8ec0dd9792333950bddd148093a7ffeab722c577317c8e535b8d8dacf98b8",
+   "code": "01da5600455a144978c8f4b69d10e8a1667ecdbd3a3dddbb173782fa5c7766828a"
+  }
+ },
+ "identityBlob": {
+  "context": "6578616d706c652f6161642f6964656e746974792d626c6f622f76320057f5176610574412401b2c2630fac1077376f897dcc093ec4d00cca88d9828e6",
+  "revision1": {
+   "plaintext": {
+    "contacts": [
+     {
+      "name": "Grace"
+     }
+    ],
+    "theme": "dark",
+    "identityPublicKey": "BGkFEaeJCOoR1gwce_nkpNygKeFdmB-AkwT0AJ2tKj_YHYxaqUz8aSM-kbWbvT0sws-oy8MstB0jT2TFyp7lUDk",
+    "identitySigningKey": "FXKEt__Mr-7-_OIb-6T_wjQhhiszyW0cbCPTV0aOlJs",
+    "sealingKey": {
+     "kty": "EC",
+     "crv": "P-256",
+     "d": "ngqlpl9oAL_8msi21UNqGkLVHQagM4rsF6K8UPRH38E",
+     "x": "aQURp4kI6hHWDBx7-eSk3KAp4V2YH4CTBPQAna0qP9g",
+     "y": "HYxaqUz8aSM-kbWbvT0sws-oy8MstB0jT2TFyp7lUDk"
+    },
+    "revision": 1
+   },
+   "sealed": "0172dd5f4208d75bd4e542037a8a878fbce77cbb3ce1207583482a0c95e191127e6de82f3d2d62dd38252bca91cadfb7c85f1af74c9b130d05bb7320cfdc973b0f376b0fe08fac74a76fdcc407a4c8c10dba409f80da8b2ce9570b719a4902b4d2dddf8d111b139f7515da83e6ddb6cc5720e2bc9d3c5cd060c4eddadbb4620efb0710b80184b76ce6d146022d73885261a82ef2c8033067c7ae5a0c562416d2f42930d2c6d85204e7f808a328878cad5d83c4fd860078903680dad2deec15282f2f01d1d36fd314f1c550591dd336743b54c9e1bc7c676d8e7e2a4fb5a1f6c4e94e7074676dd54d77cc88d3d6d272da0f93f0fc3ab063e7c6288a77e6a3fdc0bf5e013a04be69165f74a8ad77e04e8641842d12b383e0ca94a80cbd5a1863cd6b6e2fde76f8704a1eda1beb998d490c246c02f6a0198c31352a3aeaa78cdc892caad44caa7aa46cd199b06227f8493006b3d7f521141272585de63a11fb61f3045e3fabb8b77ce713ee376f9a5dcfec83bb965ccf699f5aee386262ecb19e8fc8050070ce97b1133057751a22774888f4f0228a2bc8043ab0511405f1a14d6fc50a86ce4886d3266fb9a6f7ebaca4c0b358526ad7b1d6ecc22df291fe314aa8b257c6b25349bf"
+  },
+  "revision2": {
+   "plaintext": {
+    "contacts": [
+     {
+      "name": "Grace"
+     }
+    ],
+    "theme": "light",
+    "identityPublicKey": "BGkFEaeJCOoR1gwce_nkpNygKeFdmB-AkwT0AJ2tKj_YHYxaqUz8aSM-kbWbvT0sws-oy8MstB0jT2TFyp7lUDk",
+    "identitySigningKey": "FXKEt__Mr-7-_OIb-6T_wjQhhiszyW0cbCPTV0aOlJs",
+    "sealingKey": {
+     "kty": "EC",
+     "crv": "P-256",
+     "d": "ngqlpl9oAL_8msi21UNqGkLVHQagM4rsF6K8UPRH38E",
+     "x": "aQURp4kI6hHWDBx7-eSk3KAp4V2YH4CTBPQAna0qP9g",
+     "y": "HYxaqUz8aSM-kbWbvT0sws-oy8MstB0jT2TFyp7lUDk"
+    },
+    "revision": 2
+   },
+   "sealed": "01dfeab61b2528834cb060766a72638078e0a147f106462f2ac52dccd32e75e497508f9d6fc47e5af307638f96aa2741b95e36762c530eaaf9196f4a6f7fcf5839acaa9dd9cca422e9fc4a4bd6759e5e4e8f595deb6e9f429b87cd4217fe8541d2b80c6186568d62820f1c954b348681f6d2572de9aeedf22abfa4dfe71209ac868f02bd42c98be48213bff018c4aca66693018ded23a15049634d2888042874e6dfde3aabb08178133f6c6f2a02ebcd7d9641968112916a647959d2508c932c6a2af7127f4acc6c4727104cafbc5b7f590cc416d1c8d55c73f248600d43d5e2ae891f9e4812607d7996dfeee8580e9f84ae6662429fad5641b949271780a189d228a9f68b6eb614caf5def948a506994ece6f78fc2639a3f402e264c53a79c354008b4e4f5a6c2f19a2725e1a906dc3fa239f87574d05bcda55a266d1eed4941428e90867c49f1059215e4a0a2486377193593d5783eaf5fabae7feaecd3a2257eef6e59f1862d9bf2053d0ff954553082d2520801319db8a7066c9b76651f012bd20df05cac191aeed85007e1d0e1657a4474251666397b155f977b5d408c19c26c53254d3d8c5c30c1265ffa8bdb93db4fce87b9ef390d3a00fd6503f9962352b0c516f28e673"
+  }
+ },
+ "session": {
+  "sessionKey": "808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9f",
+  "thirtyDays": {
+   "storeKey": "current",
+   "record": {
+    "v": 2,
+    "wrappedRootKey": "01da474f072ecda56d188d66320218c8c2d5c749ea4b7eca30aa0aa35dd47d1285cc8b7268ca9a7782db60cf6a6bff02461d0ac603dcb98222824bce66",
+    "routingPublicKey": "V_UXZhBXRBJAGywmMPrBB3N2-JfcwJPsTQDMqI2YKOY",
+    "unlockedAt": 1790510400000,
+    "expiresAt": 1793102400000,
+    "sessionGeneration": 3
+   },
+   "context": "6578616d706c652f6161642f73657373696f6e2f76320057f5176610574412401b2c2630fac1077376f897dcc093ec4d00cca88d9828e6000001a17d3b4a0000000003"
+  },
+  "thirtyMinutes": {
+   "storeKey": "current",
+   "record": {
+    "v": 2,
+    "wrappedRootKey": "01a3e62c5d71eb384ac3cb5c2085ab8b4ad7a46fd31893c3d1d2b8db90a3f8839d4a04b430db19c160918904acfc89ba21dec8313c9a8e09fae1b4d260",
+    "routingPublicKey": "V_UXZhBXRBJAGywmMPrBB3N2-JfcwJPsTQDMqI2YKOY",
+    "unlockedAt": 1790510400000,
+    "expiresAt": 1790512200000,
+    "sessionGeneration": null
+   },
+   "context": "6578616d706c652f6161642f73657373696f6e2f76320057f5176610574412401b2c2630fac1077376f897dcc093ec4d00cca88d9828e6000001a0e2d7f94000000000"
+  }
+ },
+ "handshake": {
+  "origin": "https://example.test",
+  "nonce": "a0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebf",
+  "signedMessage": "6578616d706c652f617574682f763200f1e2c7da767e6e0fc3eac0819fdd3a622967f18748c6f0a875c3a5b0a165031ea0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebf",
+  "wire": {
+   "type": "auth",
+   "routingPublicKey": "V_UXZhBXRBJAGywmMPrBB3N2-JfcwJPsTQDMqI2YKOY",
+   "signature": "vbDF157fI4KsHN7dBUnggEXQcxW6W9HoIgN4nDWEac7GAMLzWNGI7Sq49NSe9GPdyGd6-q6pswmVIAh-xt17CQ"
+  }
+ }
+}

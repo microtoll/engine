@@ -1,0 +1,66 @@
+# The notes example, end to end: `docker compose up` in this directory, then
+# open http://localhost:8088 (DESIGN.md §5.5). Postgres with the engine
+# schema, the blind-store reference server unchanged, and nginx serving this
+# page and the packages while forwarding /ws to the server.
+#
+# EXAMPLE ONLY. The database passwords are fixed defaults so nothing has to
+# be created first; the database is reachable only inside this Compose
+# network. A real deployment uses ../../deploy/, where the passwords are
+# secret files.
+name: microtoll-notes
+
+services:
+  db:
+    image: postgres:17
+    environment:
+      - TZ=Etc/UTC
+      - PGTZ=UTC
+      - POSTGRES_USER=notes_owner
+      - POSTGRES_DB=notes
+      - POSTGRES_PASSWORD=${NOTES_DB_OWNER_PASSWORD:-example-only-owner}
+      - BLIND_STORE_APP_PASSWORD=${NOTES_DB_APP_PASSWORD:-example-only-app}
+    volumes:
+      - ../../packages/blind-store/schema/000_blind_store.sql:/docker-entrypoint-initdb.d/000_blind_store.sql:ro
+      - ../../packages/blind-store/schema/900_app_login.sh:/docker-entrypoint-initdb.d/900_app_login.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U notes_owner -d notes"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  blind-store:
+    build:
+      context: ../..
+      dockerfile: deploy/Dockerfile
+    user: node
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      - BLIND_STORE_NAMESPACE=notes-example
+      - BLIND_STORE_ALLOWED_ORIGINS=http://localhost:8088,http://127.0.0.1:8088
+      - BLIND_STORE_COLLECTIONS={"notes":{"selectorLength":2}}
+      - BLIND_STORE_PORT=8020
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=blind_store_app
+      - DB_NAME=notes
+      - DB_PASSWORD=${NOTES_DB_APP_PASSWORD:-example-only-app}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    image: nginx:1.30-alpine
+    ports:
+      - "8088:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./:/usr/share/nginx/html/examples/notes-app:ro
+      - ../../packages:/usr/share/nginx/html/packages:ro
+    depends_on:
+      - blind-store

@@ -1,0 +1,15 @@
+{
+  "name": "__NAME__",
+  "private": true,
+  "type": "module",
+  "description": "An end-to-end-encrypted notes app on Microtoll Engine, scaffolded by @microtoll/mcp.",
+  "engines": {
+    "node": ">=24"
+  },
+  "dependencies": {
+    "@microtoll/access": "^0.1.0",
+    "@microtoll/blind-store": "^0.1.0",
+    "@microtoll/crypto-core": "^0.1.0",
+    "@microtoll/identity": "^0.1.0"
+  }
+}
