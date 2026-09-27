@@ -63,8 +63,16 @@ jobs:
       - run: npm run docs
       # Dependencies first, dependents after, so a fresh install of any one
       # of them resolves on the registry.
-      - name: Publish with provenance
+      # The first version of each package was published by hand (npm only
+      # offers trusted publishing on a package that already exists), so a
+      # tag for a version already on the registry is recorded and skipped.
+      - name: Publish with provenance, skipping versions already on the registry
         run: |
+          tag="${GITHUB_REF_NAME#v}"
           for p in crypto-core identity access mailbox blind-store mcp; do
-            npm publish --workspace "@microtoll/$p" --provenance --access public
+            if npm view "@microtoll/$p@$tag" version >/dev/null 2>&1; then
+              echo "@microtoll/$p@$tag is already published; skipped."
+            else
+              npm publish --workspace "@microtoll/$p" --provenance --access public
+            fi
           done
