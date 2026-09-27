@@ -2,6 +2,13 @@
   "name": "@microtoll/mailbox",
   "version": "0.1.1",
   "description": "Pairwise unlinkable delivery: direct invitations dropped under a mailbox label only the two parties can compute, signed with the recipient and the mailbox bound in, sealed to the recipient. Web Crypto only.",
+  "keywords": [
+    "unlinkable",
+    "invitations",
+    "end-to-end-encryption",
+    "privacy",
+    "zero-dependencies"
+  ],
   "license": "Apache-2.0",
   "repository": {
     "type": "git",

@@ -2,6 +2,15 @@
   "name": "@microtoll/access",
   "version": "0.1.1",
   "description": "Sealed sharing of an object key to members, capabilities, share links, removal with key rotation, signed member rows and two-tier disclosure. Web Crypto only.",
+  "keywords": [
+    "access-control",
+    "capabilities",
+    "sharing",
+    "revocation",
+    "key-rotation",
+    "end-to-end-encryption",
+    "zero-dependencies"
+  ],
   "license": "Apache-2.0",
   "repository": {
     "type": "git",

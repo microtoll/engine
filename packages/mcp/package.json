@@ -3,6 +3,14 @@
   "version": "0.1.2",
   "mcpName": "io.github.microtoll/mcp",
   "description": "Microtoll Engine inside your coding tool: docs search, page reading and a project scaffold over the Model Context Protocol (stdio). Zero dependencies, no network, nothing runs but what is in src/.",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "documentation",
+    "scaffold",
+    "end-to-end-encryption"
+  ],
   "license": "Apache-2.0",
   "repository": {
     "type": "git",

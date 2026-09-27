@@ -6,7 +6,7 @@ a trusted-device session, a private settings blob, step-up for sensitive
 actions, and a deletion order that leaves nothing behind. Web Crypto only;
 depends only on `@microtoll/crypto-core`.
 
-**Status:** pre-release (M2 complete); not published. Formats are version 2
+**Status:** published as `@microtoll/identity` on npm. Formats are version 2
 (`FORMATS.md`); version 1 is not read.
 
 ## What the server learns

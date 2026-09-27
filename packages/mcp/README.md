@@ -7,7 +7,7 @@ agent can wire the engine in without leaving the editor — and without
 leaving the machine: the pages are inside the package, nothing is fetched,
 nothing runs but what is in `src/`.
 
-**Status:** published as `@microtoll/mcp` (0.1.1) and listed in the MCP
+**Status:** published as `@microtoll/mcp` on npm and listed in the MCP
 registry as `io.github.microtoll/mcp`. Apache-2.0. Zero dependencies
 (D-39). Node 24 or later.
 

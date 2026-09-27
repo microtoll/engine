@@ -9,8 +9,7 @@ reference server** around it: a host app mounts the library and registers
 its own handlers beside it; the example app runs the reference server as it
 is.
 
-**Status:** M4 built; not published (the publish gate, DECISIONS.md D-01, is
-closed). Licence AGPL-3.0-only (D-02). Design: `DESIGN.md` (decisions D-33
+**Status:** published as `@microtoll/blind-store` on npm. Licence AGPL-3.0-only (D-02). Design: `DESIGN.md` (decisions D-33
 to D-36). Node 24 or later; Postgres 13 or later.
 
 ## What the server sees, in one paragraph

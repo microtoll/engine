@@ -2,6 +2,15 @@
   "name": "@microtoll/identity",
   "version": "0.1.1",
   "description": "Root key, unlock methods (passkey PRF and recovery code), trusted-device sessions, identity blob, step-up and deletion order. Web Crypto only.",
+  "keywords": [
+    "identity",
+    "passkeys",
+    "webauthn",
+    "recovery-code",
+    "end-to-end-encryption",
+    "sessions",
+    "zero-dependencies"
+  ],
   "license": "Apache-2.0",
   "repository": {
     "type": "git",

@@ -4,7 +4,7 @@ The primitives and wire formats of the Microtoll Engine. Web Crypto
 (`SubtleCrypto`) only; no runtime dependencies; runs in current browsers and
 Node ≥ 24.
 
-**Status:** pre-release; not published. Every format is pinned by frozen
+**Status:** published as `@microtoll/crypto-core` on npm. Every format is pinned by frozen
 fixtures (`test/fixtures/frozen-v1.json`) that each later version must open.
 
 ## Five-minute quickstart

@@ -2,6 +2,14 @@
   "name": "@microtoll/blind-store",
   "version": "0.1.1",
   "description": "The server that holds only what it cannot read: the challenge-response handshake, capability-authorised sealed objects with a coarse public selector, pointers, share links, mailbox drops, live watches, the sweep and the Postgres schema. A library with a thin reference server.",
+  "keywords": [
+    "server",
+    "websocket",
+    "postgres",
+    "end-to-end-encryption",
+    "zero-knowledge-server",
+    "privacy"
+  ],
   "license": "AGPL-3.0-only",
   "repository": {
     "type": "git",

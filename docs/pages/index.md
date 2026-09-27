@@ -69,3 +69,9 @@ wanting, and comes with the reasoning written down.
 
 [Start here](start-here.html): `docker compose up` the notes example, read
 one file, and then the four packages in the order they build on each other.
+
+## Where it lives
+
+- Code and issues: [github.com/microtoll/engine](https://github.com/microtoll/engine); the scanner at [github.com/microtoll/pqc-scan](https://github.com/microtoll/pqc-scan).
+- Packages: [npmjs.com/org/microtoll](https://www.npmjs.com/org/microtoll), every version published with provenance from the repository.
+- Security reports: security@microtoll.dev (see `SECURITY.md`).

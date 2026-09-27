@@ -9,7 +9,7 @@ tier (two-tier disclosure: an address, say) granted only to those the app
 says. Web Crypto only; depends on `@microtoll/crypto-core` and
 `@microtoll/identity`.
 
-**Status:** pre-release (M3 complete); not published. Formats are version 2
+**Status:** published as `@microtoll/access` on npm. Formats are version 2
 (`FORMATS.md`).
 
 ## The model in one paragraph
