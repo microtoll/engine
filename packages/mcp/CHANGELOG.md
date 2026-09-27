@@ -3,6 +3,10 @@
 Until 1.0, the API may change in any minor release and every such change is
 listed with a migration note (DECISIONS.md D-04).
 
+## 0.1.1 — 2026-09-27
+
+Metadata only, for the MCP registry listing: `mcpName` (`io.github.microtoll/mcp`) and `repository` in package.json, and `server.json` beside it. Nothing in `src/` changed. A one-off step out of lockstep with the other packages, recorded in DECISIONS.md.
+
 ## 0.1.0 — 2026-09-27
 
 The first release. The publish gate opened on 2026-09-27 (`DECISIONS.md`, D-01); every package is published in lockstep at 0.1.0 (D-41). The formats are frozen from this version (D-04).

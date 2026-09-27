@@ -7,8 +7,9 @@ agent can wire the engine in without leaving the editor — and without
 leaving the machine: the pages are inside the package, nothing is fetched,
 nothing runs but what is in `src/`.
 
-**Status:** M5; not published (the publish gate, DECISIONS.md D-01).
-Apache-2.0. Zero dependencies (D-39). Node 24 or later.
+**Status:** published as `@microtoll/mcp` (0.1.1) and listed in the MCP
+registry as `io.github.microtoll/mcp`. Apache-2.0. Zero dependencies
+(D-39). Node 24 or later.
 
 ## Add it to a host
 

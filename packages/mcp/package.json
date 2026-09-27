@@ -1,8 +1,14 @@
 {
   "name": "@microtoll/mcp",
-  "version": "0.1.0",
+  "version": "0.1.1",
+  "mcpName": "io.github.microtoll/mcp",
   "description": "Microtoll Engine inside your coding tool: docs search, page reading and a project scaffold over the Model Context Protocol (stdio). Zero dependencies, no network, nothing runs but what is in src/.",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/microtoll/engine.git",
+    "directory": "packages/mcp"
+  },
   "type": "module",
   "main": "./src/index.js",
   "types": "./types/index.d.ts",

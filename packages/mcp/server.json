@@ -1,0 +1,25 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.microtoll/mcp",
+  "title": "Microtoll Engine",
+  "description": "Microtoll Engine in your coding tool: docs search and a scaffold for end-to-end-encrypted apps.",
+  "repository": {
+    "url": "https://github.com/microtoll/engine",
+    "source": "github",
+    "subfolder": "packages/mcp"
+  },
+  "websiteUrl": "https://microtoll.dev/for-agents.html",
+  "version": "0.1.1",
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "@microtoll/mcp",
+      "version": "0.1.1",
+      "runtimeHint": "npx",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}
