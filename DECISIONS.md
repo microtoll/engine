@@ -19,6 +19,20 @@ this log; their numbers are not reused.
 
 ## Recorded
 
+**2026-09-27 — Launch item 8 done: every package on npm with provenance.**
+The signed tag `v0.1.1` (re-created on the fixed commit) ran the release
+workflow: the full check against a database, then each package staged with
+provenance through GitHub's OIDC, and the founder approved the six on
+npm. Now on the registry: `crypto-core`, `identity`, `access`, `mailbox`
+and `blind-store` at 0.1.1 and `mcp` at 0.1.2, each with a signed
+provenance statement in the public transparency log. Verified by a clean
+install of all six followed by `npm audit signatures`: "6 packages have
+verified attestations". The published MCP server now reports its real
+version. From here a release is: bump, push, signed tag, approve on npm.
+The launch checklist is complete apart from item 12 (Show HN, Sponsors),
+which is the founder's. The MCP registry entry still names 0.1.1; moving
+it to 0.1.2 needs a fresh registry sign-in with a `read:org` token.
+
 **2026-09-27 — The tag `v0.1.1` was moved once, on the founder's
 instruction (an exception to the no-rewrite rule, recorded).** The first
 release through the workflow (0.1.1 for the five lockstep packages, mcp

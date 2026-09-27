@@ -36,7 +36,7 @@ Plan §2: no promotion beyond the last two items.
        and 6 (branch protection, the signing key, `PUBLISH_GATE_OPEN`) are
        repeated for it. Then tag: `git tag -s v0.1.0 -m "Microtoll Engine 0.1.0"`
        and push the tag; the release workflow publishes with provenance.
-8. [ ] **Provenance checked** on npm for each of the six packages. (0.1.0 was published by hand, without provenance; from 0.1.1 the release workflow publishes with it.)
+8. [x] **Provenance checked** on npm for each of the six packages (2026-09-27: 0.1.1 of the five and mcp 0.1.2, staged by the release workflow with provenance and approved by the founder; `npm audit signatures` verifies all six. 0.1.0 had been published by hand.)
        (`pqc-scan` 0.1.0 was published by hand, without provenance; its
        next version comes through `release.yml` once trusted publishing is
        set.)
