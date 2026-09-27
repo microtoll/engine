@@ -19,6 +19,27 @@ this log; their numbers are not reused.
 
 ## Recorded
 
+**2026-09-27 — Microtoll Engine 0.1.0 is published: six packages on npm,
+the signed tag, the site.** The founder published each package by hand
+from `D:\PROJECTS\engine-public` in dependency order (crypto-core,
+identity, access, mailbox, blind-store, mcp), each with a passkey
+approval; verified from the registry by a clean install of all six into an
+empty folder, and each one loads. Shasums: crypto-core
+`3d82d75f…`, identity `0fdfb9cb…`, access `7e169792…`, mailbox
+`04b3c188…`, blind-store `a5041461…`, mcp `66593e8e…`. The signed tag
+`v0.1.0` (`d84c7d4`) is on `microtoll/engine` and GitHub verifies it. The
+release workflow's first run failed, as expected, on "cannot publish over
+a previously published version"; it now skips versions already on the
+registry (`engine` `67716d9`); provenance starts with 0.1.1, once trusted
+publishing is set on each package. `microtoll.dev` answers over plain
+http from GitHub Pages; the certificate for https is being issued. Email
+routing for `security@microtoll.dev` is set up on Cloudflare with a strict
+DMARC policy (`p=reject`). Launch items done: 1 to 7 and 10; 8 waits for
+the next version; 9 for the certificate; 11 (the MCP listing) and 12 (Show
+HN, Sponsors) remain. The public repository's CI needs `npm run docs`
+before any commit that touches a document the docs snapshot includes; the
+first run failed on a stale `packages/mcp/generated/docs.json`.
+
 **2026-09-27 — The engine is public: `microtoll/engine` from a snapshot;
 0.1.0 prepared; Pages deployed.** Launch items 5, 6 and 7 (the repository
 half): every package is at 0.1.0 without `"private"`, in lockstep (D-41),

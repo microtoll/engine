@@ -25,7 +25,7 @@ Plan §2: no promotion beyond the last two items.
 5. [x] **Versions** (2026-09-27): every `packages/*/package.json` at `0.1.0` and its
        `"private": true` line removed (the first publish; lockstep, D-41).
 6. [x] **The repository variable `PUBLISH_GATE_OPEN`** set to `true` (2026-09-27, both repositories).
-7. [~] **The public repository, from a snapshot** (decided 2026-09-27; `microtoll/engine` created at `c951b2f` the same day; the tag and the first publish remain): the
+7. [x] **The public repository, from a snapshot** (decided 2026-09-27; `microtoll/engine` created at `c951b2f` the same day; six packages published by hand and the signed tag `v0.1.0` pushed the same evening): the
        private repository (`microtoll/engine-record`) stays private as the
        dated record; a new public repository, `microtoll/engine` (the name
        the documentation links to), starts from a snapshot of the tree, its
@@ -36,14 +36,14 @@ Plan §2: no promotion beyond the last two items.
        and 6 (branch protection, the signing key, `PUBLISH_GATE_OPEN`) are
        repeated for it. Then tag: `git tag -s v0.1.0 -m "Microtoll Engine 0.1.0"`
        and push the tag; the release workflow publishes with provenance.
-8. [ ] **Provenance checked** on npm for each of the six packages.
+8. [ ] **Provenance checked** on npm for each of the six packages. (0.1.0 was published by hand, without provenance; from 0.1.1 the release workflow publishes with it.)
        (`pqc-scan` 0.1.0 was published by hand, without provenance; its
        next version comes through `release.yml` once trusted publishing is
        set.)
 9. [~] **microtoll.dev** (Pages enabled and deployed 2026-09-27; the DNS record is the founder's): the domain's DNS to GitHub Pages; the Pages
         workflow enabled for `docs/site`; `https://microtoll.dev/llms.txt`
         answers.
-10. [ ] **security@microtoll.dev** exists and is read.
+10. [x] **security@microtoll.dev** exists and is read (2026-09-27: Cloudflare Email Routing to the founder's mailbox; DMARC `p=reject`).
 11. [ ] **The MCP server listed** in the MCP registry and the hosts'
         directories, as `@microtoll/mcp`.
 12. [ ] One **Show HN** post. A **GitHub Sponsors** link. Nothing else.
