@@ -19,6 +19,21 @@ this log; their numbers are not reused.
 
 ## Recorded
 
+**2026-09-27 — D-48 decided: `@microtoll/mcp` versions on its own; the
+other five stay in lockstep (amends D-41).** The founder's choice, on the
+question of how to ship the one metadata line the MCP registry requires
+(`mcpName` in the published package). Lockstep versions remain good
+practice for the five packages that share frozen byte formats
+(`crypto-core`, `identity`, `access`, `mailbox`, `blind-store`): one number
+names a set tested together. `@microtoll/mcp` ships documentation and a
+scaffold, none of the five imports it, and it changes whenever the
+documentation does, so it takes its own version from here. First use:
+`@microtoll/mcp` 0.1.1, metadata only (`mcpName`
+`io.github.microtoll/mcp`, `repository`, and `server.json` beside it;
+`engine` `f9e6f00`), for the listing in the official MCP registry (launch
+item 11). The release workflow still publishes all six on a `v*` tag,
+skipping any version already on the registry.
+
 **2026-09-27 — Microtoll Engine 0.1.0 is published: six packages on npm,
 the signed tag, the site.** The founder published each package by hand
 from `D:\PROJECTS\engine-public` in dependency order (crypto-core,
