@@ -17,11 +17,9 @@ engine derives a key or a context from is `<namespace>/<purpose>/v<n>`, and
 three labels of retired formats are refused in every namespace so they can
 never be reused by accident.
 
-How a format is allowed to change: as a **pending decision** in the
-repository's `DECISIONS.md`, with the reasoning, decided by the maintainer
-before any code, and recorded with the date. The record of every format
-decision so far is on the [decisions](decisions.html) page; the formats
-themselves are in each package's formats page ([identity](packages/identity-formats.html),
+How a format is allowed to change: as a **pending decision**, with the
+reasoning, decided by the maintainer before any code, and recorded with the
+date. The formats themselves are in each package's formats page ([identity](packages/identity-formats.html),
 [access](packages/access-formats.html), [mailbox](packages/mailbox-formats.html)).
 
 ## The API may change until 1.0

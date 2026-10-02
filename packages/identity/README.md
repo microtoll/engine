@@ -66,18 +66,18 @@ await session.deleteAccount();
 Lower layers are exported too (`wrapRootKeyWithPrf`, `openIdentityBlob`,
 `createSessionStore`, `authenticateConnection`, …) for apps that need them.
 
-The screens are the app's (D-25): the package asks through `ui` and `hooks`
+The screens are the app's: the package asks through `ui` and `hooks`
 and words nothing itself. Errors carry a `code` (`not-allowed`,
 `prf-unsupported`, `identity-blob-unreadable`, `stale-session`,
 `different-account`, …) and a `diagnostic` that never holds a secret.
 Whatever the host's registration policy needs on the wire, such as terms or
-age acceptance, comes from `hooks.registrationFields` (D-17); the package
+age acceptance, comes from `hooks.registrationFields`; the package
 stores no policy of its own. The `every-open` lock interval clears only the
 session; clearing the app's own offline caches belongs in `hooks.onLocked`.
 
 ## The server side
 
-The package speaks the account protocol of `@microtoll/blind-store` (M4):
+The package speaks the account protocol of `@microtoll/blind-store`:
 `challenge`/`auth`, `lookup-unlock-method` before sign-in, `register` with
 every method in one transaction, the unlock-method messages,
 `update-identity-blob` with a compare-and-swap, `bump-session-generation`,

@@ -6,7 +6,7 @@ compute**, collected by the recipient's own client. The server holds rows
 under labels it cannot compute, attribute or read. Web Crypto only; depends
 on `@microtoll/crypto-core` and `@microtoll/identity`.
 
-**Status:** published as `@microtoll/mailbox` on npm (built as M3b inside M5, D-40). Formats in
+**Status:** published as `@microtoll/mailbox` on npm. Formats in
 `FORMATS.md` (the label frozen by crypto-core's fixture file; the bundle
 version 2).
 

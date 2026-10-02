@@ -1,6 +1,6 @@
-# @microtoll/access — the object model and the hardening design (M3)
+# @microtoll/access — the object model and the hardening design
 
-**Status:** decided 2026-09-25 (DECISIONS.md D-30, D-31, D-32): the design below is what M3 builds.
+**Status:** decided 2026-09-25: the design below is what the package builds.
 
 ## 1. What the access layer is, in one paragraph
 
@@ -19,9 +19,9 @@ never reaches the server. **Removal** rotates every key and re-seals every
 remaining row in one server transaction that checks the epoch and that every
 active row was named. **Revocation** of a link deletes its row only.
 
-## 2. Decision D-30: the object model
+## 2. The object model
 
-The object model answers D-13 (a generic collection model) with five rules:
+The object model is a generic collection model with five rules:
 an epoch on every write, a rotation the server refuses unless it names every
 active row, an admin capability replaced on every rotation and carried in
 padded seats, rows that cannot have come from an honest client set aside, and
@@ -39,14 +39,14 @@ authenticated data to the object-layer seals (§3).
 | `grantDue(row) → boolean` | caller-supplied: who is owed the second tier. The package ships an example rule: "verified or quiet, going, not opted out" |
 | pointer | the package owns `objectId`, `kObject`, `keyEpoch`, `rowCapabilitySecret`, `adminCapabilitySecret`, `quietRotationKey`, `quietRotationKemSeed`, `sharedLinks`, `invitedBy`; the app's fields (a status mirror, a notification flag, …) ride through a registered extension table |
 | owner, co-owner | holders of the admin capability |
-| the **coarse selector** | an opaque app value the server indexes (M4); not the package's |
+| the **coarse selector** | an opaque app value the server indexes; not the package's |
 | admin seats, admin box | `ADMIN_SEAT_BUCKET` 4, seat plaintext 256 bytes, box bucket 1024 bytes |
 | quiet row (`v: 2`) | a per-object P-256 (+ KEM) rotation key in the pointer |
 | share link | token in the URL fragment; hashed token, N uses, expiry, management secret |
-| direct invite, ack | **`@microtoll/mailbox`** (M3b): the bundle formats, and the binding of the mailbox and the recipient into the signature, live there |
+| direct invite, ack | **`@microtoll/mailbox`**: the bundle formats, and the binding of the mailbox and the recipient into the signature, live there |
 
 **Some wire message names say "event"** (`create-event`, `rotate-event-key`,
-…) because they are the server protocol `blind-store` speaks (D-27); the
+…) because they are the server protocol `blind-store` speaks; the
 package's function names are generic.
 
 **What the package does not do:** decide who is granted the second tier
@@ -55,7 +55,7 @@ invites for people without accounts, render anything, or fetch anything itself
 (it builds messages and opens replies; the transport is the app's, as in
 identity).
 
-## 3. Decision D-31: the hardening (formats version 2)
+## 3. The hardening (formats version 2)
 
 Every item adds binding with primitives crypto-core already has
 (`frameContext`, `sha256`, AEAD v1's additional authenticated data); no
@@ -68,7 +68,7 @@ never be mistaken for v2.
 |---|---|
 | member row | `frameContext("<ns>/sig/member-row/v2", uuidBytes(objectId), uuidBytes(rowId)) ‖ UTF-8(payloadJson)` |
 | share link | `frameContext("<ns>/sig/share-link/v2", hashedTokenBytes32) ‖ UTF-8(payloadJson)` |
-| direct invite / ack (mailbox, M3b) | `frameContext("<ns>/sig/invite/v2", mailboxLabel32, SHA-256(recipientKey)) ‖ UTF-8(payloadJson)` — the mailbox and the recipient are in the signature, so a bundle re-sealed into another mailbox or for another recipient verifies for nobody (D-40; the collection-side check stays too). Built in `@microtoll/mailbox`, `FORMATS.md` §2 |
+| direct invite / ack (mailbox) | `frameContext("<ns>/sig/invite/v2", mailboxLabel32, SHA-256(recipientKey)) ‖ UTF-8(payloadJson)` — the mailbox and the recipient are in the signature, so a bundle re-sealed into another mailbox or for another recipient verifies for nobody (the collection-side check stays too). Built in `@microtoll/mailbox`, `FORMATS.md` §2 |
 
 The frame's fixed-length parts (UUIDs as 16 bytes, a hash as 32) and the
 NUL-terminated label mean no field can shift into another and no signature
@@ -86,7 +86,7 @@ reader knows which message to rebuild; `v: 2` stays the quiet row.
 | content | `K_object` | `frameContext("<ns>/aad/object-content/v2", objectId, u32be(epoch))` | content moved between objects, or an earlier epoch's content replayed after a rotation under the same… (the key changes at rotation; the epoch binding is belt and braces and lets a reader assert the epoch it was told) |
 | second tier | `K_detail` | `frameContext("<ns>/aad/object-detail/v2", objectId, u32be(epoch))` | same |
 | member row | `K_object` | `frameContext("<ns>/aad/member-row/v2", objectId, uuidBytes(rowId))` | a row's ciphertext presented under another row id (the signature already binds the row id for named rows; this covers quiet and legacy rows too) |
-| pointer | `K_master_symm` | `frameContext("<ns>/aad/pointer/v2", routingPublicKey)` (D-37, M4: the account, not the object id — the server returns an account's pointers without an id, so a binding that needed one could never be opened on a fresh device; the object id is inside the sealed pointer) | a pointer moved to another account, or another `K_master_symm` blob presented as a pointer |
+| pointer | `K_master_symm` | `frameContext("<ns>/aad/pointer/v2", routingPublicKey)` (the account, not the object id — the server returns an account's pointers without an id, so a binding that needed one could never be opened on a fresh device; the object id is inside the sealed pointer) | a pointer moved to another account, or another `K_master_symm` blob presented as a pointer |
 | share-link payload | token-derived key | `frameContext("<ns>/aad/share-link/v2", hashedTokenBytes32)` | a payload served under another link's hash |
 | admin box | `K_adminbox` | `frameContext("<ns>/object-adminbox/v1", objectId, u32be(epoch))` | a box moved to another object, or an earlier epoch's box replayed |
 
@@ -109,9 +109,9 @@ rule's shape, the pointer's compare-and-heal on a lagging epoch, link tokens
 (160 bits), capability secrets (256 bits, SHA-256 on the server), and every
 wire message.
 
-## 4. Decision D-32: what M3 ships and what waits
+## 4. What the package ships and what waits
 
-**M3, `@microtoll/access`:**
+**`@microtoll/access`:**
 - object creation; sealing `K_object` to a member; the read capability;
   member rows (named, quiet, legacy readers); pointers with the extension
   table; admin seats and the admin box; the rotation plan and the member's
@@ -123,7 +123,7 @@ wire message.
   `rotate-event-key`, `create-participation`, `update-participation`,
   `update-event`, `delete-event`, `delete-participation`, the four link
   messages).
-- Tests: the adversarial suite the build plan names, each case against the
+- Tests: the adversarial suite (§5), each case against the
   in-process server stand-in extended with the object messages (the same
   stand-in identity uses, so the contract stays one).
 - Fixtures: the version-2 contexts frozen in this package's tests;
@@ -134,12 +134,12 @@ wire message.
   box, share links, and their hybrid variants), which every later version
   must open and reproduce.
 
-**Waits:** direct invites and acknowledgements (mailbox, M3b); contacts and
+**Waits:** direct invites and acknowledgements (in `@microtoll/mailbox`); contacts and
 favourites (app or mailbox); product features that ride in rows or content
 as app fields (a first-time flag, repeat grants, proposals, signals) stay the
 app's.
 
-## 5. The adversarial suite (build plan M3), mapped
+## 5. The adversarial suite, mapped
 
 | Requirement | Cases |
 |---|---|

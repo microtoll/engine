@@ -1,7 +1,6 @@
 # @microtoll/mailbox — formats
 
-Status: **decided** (D-40, 2026-09-25; the signature's binding reserved by
-D-31). The label is frozen by the crypto-core fixture file (its `mailbox`
+Status: **decided** (2026-09-25). The label is frozen by the crypto-core fixture file (its `mailbox`
 section, under the test namespace), which every later version must
 reproduce; the bundle is version 2. Version-2 bundles this package wrote
 under that label (an invitation, an acknowledgement and a hybrid invitation)
@@ -20,7 +19,7 @@ label  = HKDF-SHA-256(shared, salt ∅, info, 256 bits)                    (32 b
 - The epoch is the calendar month in UTC. A recipient polls this month and
   the previous; a standing subscription covers this month and the next.
 - `invite-mailbox/v1` (the X25519 label) is retired in every namespace
-  (D-05) and cannot be produced through the profile.
+  and cannot be produced through the profile.
 - What the server sees: the 32-byte label, and nothing else. It cannot
   compute one, attribute one, or read what is under it.
 

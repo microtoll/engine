@@ -9,8 +9,7 @@ reference server** around it: a host app mounts the library and registers
 its own handlers beside it; the example app runs the reference server as it
 is.
 
-**Status:** published as `@microtoll/blind-store` on npm. Licence AGPL-3.0-only (D-02). Design: `DESIGN.md` (decisions D-33
-to D-36). Node 24 or later; Postgres 13 or later.
+**Status:** published as `@microtoll/blind-store` on npm. Licence AGPL-3.0-only. Design: `DESIGN.md`. Node 24 or later; Postgres 13 or later.
 
 ## What the server sees, in one paragraph
 
@@ -68,10 +67,10 @@ that its answer echoes. Before sign-in only `lookup-unlock-method` (three
 per socket) and what a host registers with `auth: 'none'` or `'any'` are
 answered; anything else closes the socket. After it, an unknown type is
 refused by name and never reflected. Message names keep the protocol's
-event vocabulary (D-27); the client side of every one is in
+event vocabulary; the client side of every one is in
 `@microtoll/identity` (accounts) and `@microtoll/access` (objects, links,
 the query and the watches). The mailbox's server half is here; its client
-package is M3b.
+package is `@microtoll/mailbox`.
 
 Query and fetch replies never carry `adminCapabilityHash`: it would be a
 stable per-object token handed to every querier. `delete-pointer` lets a

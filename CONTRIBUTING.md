@@ -9,8 +9,8 @@ to every contribution, the maintainer's included.
 1. **No new cryptography.** The constructions are fixed, verified by
    published test vectors and pinned by frozen fixtures. A change to a
    primitive, a mode, a label, a version byte, a key-derivation parameter
-   or a signed-byte layout is not a pull request: it is a **pending decision**
-   in `DECISIONS.md`, with the reasoning and a recommendation, for the
+   or a signed-byte layout is not a pull request: it is a **pending decision**,
+   written up in an issue with the reasoning and a recommendation, for the
    maintainer to decide first. Adding a test vector or a fixture is fine.
 2. **Zero runtime dependencies** in the browser packages. The server package
    has exactly `ws` and `pg`, pinned; a new dependency anywhere needs a
@@ -57,7 +57,7 @@ Tests; docs updated (README, `CHANGELOG.md`, `FORMATS.md` where a format is
 touched); the threat model updated if the attack surface changed; the
 deviations section updated; `npm run check` green with the database-backed
 suites running. A pull request that changes a format without a recorded
-decision will be closed with a pointer to `DECISIONS.md`, kindly.
+decision will be closed with a pointer to this page, kindly.
 
 ## Conduct
 

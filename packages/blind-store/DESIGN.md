@@ -1,7 +1,6 @@
-# `@microtoll/blind-store` — design for decision (M4)
+# `@microtoll/blind-store` — design
 
-Status: **decided**, 2026-09-25 (D-33 to D-36 in `DECISIONS.md`, all four as
-recommended). This document is the design the package follows; the README
+Status: **decided**, 2026-09-25. This document is the design the package follows; the README
 describes what was built.
 
 ## 1. What the package is, in one paragraph
@@ -12,15 +11,15 @@ hashed link tokens. It authenticates a connection by a signed challenge,
 authorises writes by capability secrets rather than identity, indexes objects
 by a coarse public selector the app chooses, pushes live changes by that same
 selector, sweeps what has expired, and never logs a message body. It is a
-**library** with a **thin reference server** around it (D-23): a host app
+**library** with a **thin reference server** around it: a host app
 mounts the library and registers its own handlers beside it; the example app
 runs the reference server as it is.
 
-## 2. Decision D-33: the collection model (the server half of D-13/D-30)
+## 2. The collection model (the server half)
 
 An object is a sealed record in a named collection, filed under a coarse
 public selector and, where the collection has one, a date window: the
-server half of the model D-30 set for the client side.
+server half of the model `@microtoll/access` sets for the client side.
 
 ### 2.1 What an object row holds
 
@@ -46,7 +45,7 @@ may for `users`.
 
 ### 2.2 The query, and the cover-traffic obligation
 
-`query-events` (the protocol's message name, D-27/D-30) takes:
+`query-events` (the protocol's message name) takes:
 
 ```
 { collection, selectors: [ ... ] | all: true, windowStart?, windowEnd? }
@@ -75,7 +74,7 @@ may for `users`.
   whose fields ride on the same `events` reply (a host's public listings,
   say), so an app never needs a second request that would reveal intent.
 
-### 2.3 Live watches (D-14: kept)
+### 2.3 Live watches
 
 `watch-events` / `unwatch-events` take the same query shape and are validated
 by the same parser; a change to an object or a member row is routed to every
@@ -98,12 +97,12 @@ membership graph through.
   recipient. The access package's admin check is the admin box seat, which
   never needed it; `decodeObjectWire` keeps the field as `null`.
 - Message names, reply names and reason codes keep the protocol's event
-  vocabulary (D-27). The handlers keep a fixed order of checks, one
+  vocabulary. The handlers keep a fixed order of checks, one
   transaction per write, epoch guards, completeness on rotation, atomic
   redemption and the link limits.
 - The mailbox's server half (`send-invite`, `poll-invites`,
   `consume-invite`, `watch-invites`; the `mailbox_drops` table) is here:
-  it has no cryptography. The client package is M3b.
+  it has no cryptography. The client package is `@microtoll/mailbox`.
 
 ### 2.5 Table names
 
@@ -111,7 +110,7 @@ membership graph through.
 `share_links`, `mailbox_drops`, `rate_limit_counters`. A host extends
 `users` by `ALTER TABLE` in its own later init file.
 
-## 3. Decision D-34: the bound handshake, server half (D-29), and the transport limits
+## 3. The bound handshake, server half, and the transport limits
 
 ### 3.1 The verifier
 
@@ -120,15 +119,15 @@ message   = UTF-8("<ns>/auth/v2") ‖ 0x00 ‖ SHA-256(UTF-8(origin)) ‖ nonce 
 verify    = Ed25519(routingPublicKey, message, signature)   (Node's crypto.verify; RFC 8037 JWK import)
 ```
 
-- `namespace` is a required option (no default, as D-05).
+- `namespace` is a required option (no default, as in crypto-core).
 - `origin` is the upgrade request's `Origin` header when a browser sent one
   (already checked against the allowed list before the socket exists);
   when there is none (a non-browser client) each allowed origin is tried.
 - **No import of `@microtoll/crypto-core`.** The server frames the message
   with `Buffer` and verifies with `node:crypto`; a test proves the framed
   bytes equal `@microtoll/identity`'s `authMessage` and that a signature made
-  with Web Crypto verifies here — the cross-implementation test D-29 asks
-  for. The server package can then contain no code able to decrypt anything
+  with Web Crypto verifies here — the cross-implementation test the
+  identity package's handshake design asks for. The server package can then contain no code able to decrypt anything
   (§5.4).
 - One nonce, one chance: a wrong signature sends `auth-failed` and closes
   with 1008; a second `auth` on an authenticated connection is an unknown
@@ -144,7 +143,7 @@ verify    = Ed25519(routingPublicKey, message, signature)   (Node's crypto.verif
 | messages per socket | token bucket: 300, refilled 60/s | that socket, 1008 |
 | open sockets | 2,000 | the new connection, 503 at upgrade |
 | `Origin` | must be in `allowedOrigins`; no header allowed | 403 at upgrade |
-| `lookup-unlock-method` per socket | 3 (D-20) | `rate-limited` |
+| `lookup-unlock-method` per socket | 3 | `rate-limited` |
 | per-field ciphertext caps | the table in `src/limits.js` (identity blob 2 MiB, content 512 KiB, detail 256 KiB, row 64 KiB, pointer 256 KiB, link and mailbox payloads 256 KiB; nested: sealed object key 4 KiB, wrapped root key 1 KiB, label 4 KiB, credential id 1,023 B, salts 256 B) | `invalid`, with the field named |
 | share links | `maxUses` ≤ 200, expiry required and ≤ 400 days | `invalid` |
 | query answer | `maxQueryRows` 5,000 (§2.2) | `too-many` |
@@ -154,7 +153,7 @@ All configurable in `createBlindStore({ transport, limits, rateLimits })`;
 the defaults, each justified, are in `src/limits.js`. Every limit is a DoS
 backstop, not a product rule, and the README says so.
 
-## 4. Decision D-35: schema rules as tests, the sweep, the database role
+## 4. Schema rules as tests, the sweep, the database role
 
 ### 4.1 The rules, checked against a live database
 
@@ -178,7 +177,7 @@ A test reads `information_schema` for the engine's tables and fails on:
 
 The same test is what a host runs against its own extended database.
 
-### 4.2 The sweep (D-19)
+### 4.2 The sweep
 
 `blind_store_sweep()` empties the payload of every share link used up or
 past its expiry, deletes a link a week after its expiry, deletes a mailbox
@@ -199,7 +198,7 @@ the role may not run fails in the suite. The login and password are given
 at deployment, never in the schema file: the Compose kit sets them from a
 secret file at first start.
 
-## 5. Decision D-36: the library, the reference server, the deployment kit, the example
+## 5. The library, the reference server, the deployment kit, the example
 
 ### 5.1 The library
 
@@ -211,7 +210,7 @@ const store = createBlindStore({
   port: 8020,                               // listens at creation
   allowedOrigins: ['https://app.example'],
   collections: { notes: { selectorLength: 2 } },     // window: false; or events: { selectorLength: 5, window: true, allowAll: true, imminentDays: 2, queryExtras }
-  registration: { columns, onRegister, authOkFields },  // optional host policy (D-17)
+  registration: { columns, onRegister, authOkFields },  // optional host policy
   live: { connectionConfig, extraChannels },            // optional: LISTEN for the live watches
   sweep: { intervalMs: 3600_000 },
   transport, limits, rateLimits, httpRoutes, onAuthenticated, onSocketClose, onDeleteAccount, log,
@@ -312,10 +311,9 @@ in ten minutes, on the reference server unchanged:
   deep as the crowd on a shelf — the same honesty the threat model asks of
   any coarse selector.
 - The page uses the workspace packages through an import map — the packages
-  as they will be published, no build step — since the publish gate is
-  closed (D-01).
+  as they are published, no build step.
 
-## 6. What stays out (D-14, confirmed)
+## 6. What stays out
 
 Reporting and moderation, the public layer, operator disclosure keys, the
 repeat grant, live signals (the transaction-local `blind_store.quiet_push`

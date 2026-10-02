@@ -41,7 +41,6 @@ export const PAGES = [
   { section: 'For agents', path: 'for-agents.html', source: 'docs/pages/for-agents.md', description: 'llms.txt, the MCP server and the scaffold: wiring the engine in from inside a coding tool.' },
   { section: 'Project', path: 'contributing.html', source: 'CONTRIBUTING.md', description: 'The rules, the sign-off, and what a pull request needs.' },
   { section: 'Project', path: 'security.html', source: 'SECURITY.md', description: 'How to report a weakness and what to expect.' },
-  { section: 'Project', path: 'decisions.html', source: 'DECISIONS.md', description: 'The founder\'s decisions: every crypto, licensing and scope choice with its reasoning.' },
 ];
 
 // ---------------------------------------------------------------------

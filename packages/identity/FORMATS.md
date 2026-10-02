@@ -1,7 +1,7 @@
-# @microtoll/identity — formats and the hardening design (M2, D-24)
+# @microtoll/identity — formats and the hardening design
 
-**Status:** decided 2026-09-25 (DECISIONS.md D-28, D-29): the design below is
-what M2 builds. Two items moved to version 3 on 2026-09-27 (D-46, D-47; §2.8):
+**Status:** decided 2026-09-25: the design below is what the package
+builds. Two items moved to version 3 on 2026-09-27 (§2.8):
 the unlock-method label's binding and the recovery code's check character.
 The package writes those in version 3 and everything else in version 2; it
 reads a version-2 label or code only when a caller asks for it by name.
@@ -85,7 +85,7 @@ device has no memory), but it turns a silent rollback into a loud one on
 every device that was there. **It is not part of the format decision;** it is
 listed so the decision is taken knowing AAD alone does not stop rollback.
 
-### 2.3 AAD on the unlock-method label (version 3 since D-47)
+### 2.3 AAD on the unlock-method label (version 3)
 
 Version 2, read only (`labelContextV2`, `openMethodLabelV2`):
 
@@ -96,7 +96,7 @@ context = frameContext(profile.label('aad/unlock-label', 2), routingPublicKey)
 Effect: a label cannot be moved between accounts, which the account's own
 key already ensured. It did **not** stop the server showing one passkey's
 label against another passkey of the same account, the case that misleads a
-person choosing which method to remove. Version 3, written since D-47
+person choosing which method to remove. Version 3, written since 2026-09-27
 (`labelContext`, `sealMethodLabel`, `openMethodLabel`):
 
 ```
@@ -141,12 +141,12 @@ signature = Ed25519(routingPrivateKey, message)
   verifies against its configured allowed origins, trying each.
 - The label ties the signature to this purpose and this app; the origin ties
   it to this deployment; the nonce ties it to this connection.
-- **Mirrored:** the client half ships in `@microtoll/identity` (M2); the
-  server half in `@microtoll/blind-store` (M4), with a cross-implementation
-  test that a browser-side signature verifies under Node. Until M4,
-  identity's tests verify the message with crypto-core's own `verifyBytes`.
+- **Mirrored:** the client half ships in `@microtoll/identity`; the
+  server half in `@microtoll/blind-store`, with a cross-implementation
+  test that a browser-side signature verifies under Node. Identity's own
+  tests verify the message with crypto-core's `verifyBytes`.
 
-### 2.6 Non-extractable signing keys (D-24 item 4; already decided)
+### 2.6 Non-extractable signing keys
 
 ```
 seed → import pkcs8 (extractable) → export JWK → public key
@@ -166,21 +166,21 @@ states. The seed bytes are zeroed after the second import (best effort; a
 - PBKDF2 parameters and the PRF derivation label.
 - The `register` message with both unlock methods in one transaction
   (already atomic in version 1).
-- The open, pre-authentication `lookup-unlock-method` (D-20; the server
+- The open, pre-authentication `lookup-unlock-method` (the server
   caps its answers per connection, so one connection cannot harvest wrapped
   root keys in bulk).
 - Session length (30 days), lock intervals, the step-up grace (5 minutes,
   bound to the account) and the deletion order.
 
-### 2.8 Version 3 (2026-09-27, D-46 and D-47)
+### 2.8 Version 3 (2026-09-27)
 
 - **The unlock-method label** is bound to its own method (§2.3).
-- **The recovery code** a person writes down is crypto-core's version 3
-  (D-46): 16 bytes in Crockford base32 (26 characters) and a check
+- **The recovery code** a person writes down is crypto-core's version 3:
+  16 bytes in Crockford base32 (26 characters) and a check
   character Σ aⁱ⁺¹·sᵢ over GF(32) = GF(2)[x]/(x⁵ + x² + 1), a = x. Every
   single wrong character and every swap of two different characters is
   caught before the lookup, and the two unused bits must be zero, so one
-  string names one secret. Version 2's check (SHA-256-derived, D-26) caught
+  string names one secret. Version 2's check (SHA-256-derived) caught
   each such error only 31 times in 32, and the rest failed later as "no such
   account".
 - **Reading version 2.** A version-2 and a version-3 code have the same
@@ -208,7 +208,7 @@ the recovery code, and a root key wrapped for a version-3 code), and
 crypto-core's `test/fixtures/frozen-recovery-v3.json` pins eight version-3
 codes.
 
-## 4. Package shape (for orientation; the API review is at M2 acceptance)
+## 4. Package shape (for orientation)
 
 ```js
 import { createCryptoCore } from '@microtoll/crypto-core';
@@ -227,5 +227,5 @@ const identity = createIdentity({
 ```
 
 The package ends at "an authenticated connection, the `auth-ok` fields, the
-opened blob, the adopted sealing key" (D-11). Everything after that is the
-app's. Wire message names are fixed (D-27).
+opened blob, the adopted sealing key". Everything after that is the
+app's. Wire message names are fixed.

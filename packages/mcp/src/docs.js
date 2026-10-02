@@ -25,7 +25,7 @@ export function readDoc(path, docs = loadDocs()) {
   return page ? { path: page.path, url: page.url, title: page.title, description: page.description, markdown: page.markdown } : null;
 }
 
-/** The guides and package pages outrank the project records (the decisions log, the policies), which mention everything. */
+/** The guides and package pages outrank the project pages (contributing, the security policy). */
 const SECTION_WEIGHT = { Start: 1.3, Packages: 1.4, 'Examples and deployment': 1.2, 'The honest part': 1.1, 'For agents': 1.1, Project: 0.5 };
 
 /**

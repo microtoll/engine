@@ -89,23 +89,23 @@ await access.rotateObjectKey(ws, objectId, adminCapabilitySecret, plan);
 ## Tests
 
 `npm test`: 29 tests, all through the public API, including the adversarial
-suite the build plan names (`THREATMODEL.md` §5 maps them).
+suite (`THREATMODEL.md` §5 maps them).
 
 ## Formats and scope
 
-- **Formats version 2** (D-31): purpose labels on the member-row and
+- **Formats version 2**: purpose labels on the member-row and
   share-link signatures; additional authenticated data on content, second
   tier, member rows, pointers and link payloads. The per-member sealed copy
   of `K_object` is an ECIES seal without extra data (stated in the threat
   model). Envelope `v: 3` is the signed row; `v: 2` the quiet row; an
   envelope with any other version, or none, is refused.
-- **Generic names** (D-30): object, member row, owner, `K_object`. Some wire
+- **Generic names**: object, member row, owner, `K_object`. Some wire
   message and field names say "event" (`create-event`, `eventUserId`): they
-  are the server protocol (D-27).
+  are the server protocol.
 - **The split, the merge, the grant rule and the pointer's app fields are
   supplied by the app**; the package knows nothing of what the content means.
 - **Admin box label** is `<ns>/object-adminbox/v1` (`FORMATS.md` §3.2).
 - **Direct invites, acknowledgements, contacts and favourites** are not here
-  (mailbox, M3b); nor are product features that ride in rows or content.
+  (they are in `@microtoll/mailbox`); nor are product features that ride in rows or content.
 - **`openRows` skips a row that will not open** rather than surfacing it;
   the rotation plan is where an unreadable row is reported (set aside).

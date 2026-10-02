@@ -60,7 +60,7 @@ label lives on the instance.
   false`): it needs a browser with native `MLKEM768-X25519` (Chrome 154+) and
   has not yet been cross-checked against one. In tests it runs through a
   test-only X-Wing composition verified against the draft's vectors.
-- **PBKDF2-SHA-256** and the **recovery-code format, version 3** (D-46): 16
+- **PBKDF2-SHA-256** and the **recovery-code format, version 3**: 16
   bytes in Crockford base32 plus a weighted check character over GF(32)
   (`XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXX`). Every single wrong character and
   every swap of two characters is caught; a random typo, 31 times in 32.
@@ -86,11 +86,11 @@ is not quantum-safe.
 
 ## Notes on the API
 
-- **Labels come from a namespace profile** (DECISIONS.md D-05), never from
+- **Labels come from a namespace profile**, never from
   constants an app could edit in place; retired labels are refused in every
   namespace.
 - **The post-quantum switch is an instance option** (`hybridSealing`, off by
-  default, D-07); the test seams are `_setHybridSealing` and
+  default); the test seams are `_setHybridSealing` and
   `_resetHybridSupport`.
 - **`pbkdf2DeriveBits`** is exposed so the RFC 7914 vectors run through the
   package; `deriveAesKeyFromSecret` takes its iteration count from the
@@ -99,10 +99,10 @@ is not quantum-safe.
   `generateSymmetricKey` gives 32 random bytes, and the identity and access
   packages name its uses (root key, capability secret).
 - **`fromHex` rejects non-hex characters** instead of decoding them as zero.
-- **The recovery-code check character is version 3** (D-46): Σ aⁱ⁺¹·sᵢ over
+- **The recovery-code check character is version 3**: Σ aⁱ⁺¹·sᵢ over
   the 26 data characters in GF(32) = GF(2)[x]/(x⁵ + x² + 1), a = x, and the
   parser refuses non-zero padding bits, so one string names one secret. A
-  version-2 code (D-26) looks the same, so it is never tried as a fallback:
+  version-2 code looks the same, so it is never tried as a fallback:
   pass `{ version: 2 }` to read one. `formatRecoveryCode` and
   `parseRecoveryCode` stay asynchronous, because version 2 needs SHA-256.
   Errors carry a `code` (`recovery-code-checksum`, …) for the app to word.

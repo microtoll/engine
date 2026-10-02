@@ -20,7 +20,7 @@ in it, thank you for reading this first.
 - An acknowledgement within **seven days**.
 - A fix, or a written statement of why there will not be one, within
   **ninety days** of the report, sooner where the fix is simple. Where a fix
-  changes a stored format, the format rules (DECISIONS.md D-04) still apply:
+  changes a stored format, the format rules still apply:
   readers for every published format stay supported.
 - Credit in the release notes, if you want it. There is no bounty: nothing
   in this project is financial, by rule.

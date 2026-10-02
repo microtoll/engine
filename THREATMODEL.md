@@ -1,7 +1,7 @@
 # THREATMODEL.md — Microtoll Engine
 
-**Status:** each package's section was completed in its milestone, before
-that package's API was reviewed; the formats each claim rests on are in the
+**Status:** each package's section was completed before that package's API
+was reviewed; the formats each claim rests on are in the
 packages' `FORMATS.md` and `DESIGN.md`. A limit is stated as plainly as a
 protection.
 
@@ -65,7 +65,7 @@ protection.
   | AEAD v1 `[0x01][IV][ct‖tag]` | wrong key; any flipped bit in IV, ciphertext or tag; truncation; unknown version byte; additional data that differs or is missing — all fail at the GCM tag, before any plaintext is returned |
   | ECIES v3 `[0x03][ephemeral][AEAD]` | wrong recipient pair; the right private key with a swapped public half (the recipient is bound into the key); a relabelled version byte (authenticated as AAD); an ephemeral point off the curve; a blob from another namespace (the label is in the key); the retired v1 format, by name |
   | ECIES v2 `[0x02][KEM ct][AEAD]` | as v3, plus any flipped bit in the 1120-byte KEM ciphertext (the shared secret changes, then the tag fails); truncation; a v3 blob given to the v2 opener and the reverse |
-  | Recovery code v3 (D-46) | wrong length, an invalid character, a failed check character, non-zero padding bits — each with an error `code`; **every** single wrong character and **every** swap of two different characters fails the check; a random typo passes it with probability 1/32 and then fails lookup, never opens another account. A version-2 code is read only when asked for by name |
+  | Recovery code v3 | wrong length, an invalid character, a failed check character, non-zero padding bits — each with an error `code`; **every** single wrong character and **every** swap of two different characters fails the check; a random typo passes it with probability 1/32 and then fails lookup, never opens another account. A version-2 code is read only when asked for by name |
 
 - **Misuse the API stops:** a bare private key where the pair is needed (`openWithPrivateKey`), a 32-byte "recipient key" (the retired X25519 length), a seed or key of the wrong length, a namespace missing or malformed, a retired label in any namespace, `hybridSealing` left off on a capable runtime (it stays classical; a capable browser never switches itself on).
 
@@ -91,15 +91,15 @@ protection.
   - The link between routing key and wrapped root key, which A1 can see (a locker number).
   - The existence and approximate age of accounts, and how often unlock methods changed (`session_generation`).
   - Step-up is client-side only.
-- **What each stored item is bound to (formats version 2, D-28, and the label in version 3, D-47; every row is a test in `packages/identity/test/`):**
+- **What each stored item is bound to (formats version 2, and the label in version 3; every row is a test in `packages/identity/test/`):**
 
   | Item | Bound to | So that |
   |---|---|---|
   | Wrapped root key | method type + SHA-256(credential id) or the recovery lookup hash | a blob cannot be presented under another row or on the other unlock path |
   | Identity blob | the routing public key; carries a `revision` | it cannot be moved between accounts; a rollback is refused on a device that saw a later revision (cooperative) |
-  | Unlock-method label | the method: its type, and SHA-256(credential id) for a passkey (version 3, D-47) | it cannot be shown against another method, even another passkey of the same account, so a person removing a method is not misled about which one; nor moved between accounts (another `K_master_symm`) |
+  | Unlock-method label | the method: its type, and SHA-256(credential id) for a passkey (version 3) | it cannot be shown against another method, even another passkey of the same account, so a person removing a method is not misled about which one; nor moved between accounts (another `K_master_symm`) |
   | Trusted-device session | routing key, expiry, session generation | an edited expiry or generation in a copied profile fails to open; a stored routing key that disagrees with the derived one is refused |
-  | Handshake signature | `"<ns>/auth/v2"`, SHA-256(origin), the nonce (D-29) | the signature is useless for another purpose, another deployment or another connection |
+  | Handshake signature | `"<ns>/auth/v2"`, SHA-256(origin), the nonce | the signature is useless for another purpose, another deployment or another connection |
 
 - **The recovery code: loss versus theft.** Loss of every unlock method loses the account for everyone; there is no server-side recovery, by design. Theft of the code opens the account from anywhere: it is 128 bits of entropy behind PBKDF2 (310,000 iterations, not memory-hard), so the entropy carries the security and the code must be kept like a key. Rotating it (a fresh proof first) cancels every old code in one server transaction and stales every other device's session.
 - **Passkeys.** Used only as a PRF oracle; the server never sees or verifies an assertion, so a passkey's signature algorithm is irrelevant to the account's security. The "synced" flags an authenticator reports describe the kind of credential, not the live sync setting (measured on iOS), so the package reports `passkeyBackedUp` and the app must not claim more than "the phone reports a synced kind". A credential whose PRF is refused is disowned and never registered.
@@ -123,21 +123,21 @@ protection.
   - Revoking a link does not remove access from anyone who already redeemed it; only removal (rotation) does.
   - Grant labels do not hide room membership from a link holder.
   - A1 can serve an older version of the same thing under the same key and epoch (an earlier edit): the additional authenticated data binds where a blob belongs, not which version it is.
-- **Tested behaviours that close known failure modes:** the admin capability is replaced on every rotation and carried in padded seats, so a removed co-owner keeps no admin power; one grant rule serves both the sweep and rotation, so a rotation cannot hand the second tier to members the sweep would not; the server refuses a rotation at the wrong epoch or one that does not name every active row, and refuses content and row writes at the wrong epoch; a row that cannot have come from an honest client is set aside and never sealed to. Re-sealed invitations and withdrawn drops belong to the mailbox package (M3b).
+- **Tested behaviours that close known failure modes:** the admin capability is replaced on every rotation and carried in padded seats, so a removed co-owner keeps no admin power; one grant rule serves both the sweep and rotation, so a rotation cannot hand the second tier to members the sweep would not; the server refuses a rotation at the wrong epoch or one that does not name every active row, and refuses content and row writes at the wrong epoch; a row that cannot have come from an honest client is set aside and never sealed to. Re-sealed invitations and withdrawn drops belong to the mailbox package (§7).
 
-- **What each format binds (version 2, D-31; every row is a test in `packages/access/test/`):**
+- **What each format binds (version 2; every row is a test in `packages/access/test/`):**
 
   | Item | Bound to | So that |
   |---|---|---|
   | Member-row signature | `"<ns>/sig/member-row/v2"`, object id, row id | a row cannot be lifted into another row or object and still verify |
   | Member-row seal | object id, row id (AAD) | a row's ciphertext cannot be presented under another row id, quiet and unsigned rows included |
   | Content, second tier | object id, epoch (AAD) | content cannot be moved between objects; a reader can assert the epoch it was told |
-  | Pointer | the account's routing key (AAD; D-37) | a pointer cannot be moved to another account or confused with another blob under `K_master_symm`; the object it names is inside it, since the server returns pointers without an id |
+  | Pointer | the account's routing key (AAD) | a pointer cannot be moved to another account or confused with another blob under `K_master_symm`; the object it names is inside it, since the server returns pointers without an id |
   | Share-link payload | the token hash (AAD) and, when signed, `"<ns>/sig/share-link/v2"` + the token hash | a payload cannot be served under another link's hash; a signed payload cannot be re-wrapped in a fresh link as its creator's |
   | Admin box | object id, epoch (AAD) | a box from another object or epoch does not open |
   | Sealed copy of `K_object` per member | the recipient key and version (ECIES v3/v2) — **no additional data** | a server that moves it to another of the same member's rows gains nothing the member could not do; binding it would need an ECIES v4 |
 
-- **The adversarial suite, mapped to the build plan's four requirements:**
+- **The adversarial suite, mapped to its four requirements:**
   - *A removed member's old key cannot read post-rotation writes:* the new content, second tier and every re-sealed row and key are opened by remaining members and refused to the removed one; the server refuses the removed member's row write (`unauthorized`), a remaining member's write at the old epoch (`stale`), the old admin secret (`unauthorized`), a plan on the old epoch or missing a row (`stale`); a removed member's old signed row substituted under a remaining member's id is set aside, never sealed to.
   - *A revoked link cannot be redeemed:* `not-found` after revoke; `expired`; `exhausted` after N uses; stats only with the management secret; a recipient cannot revoke.
   - *An already-redeemed link is unaffected by revoke:* the holder still reads and lists the roster; and is cut off by a later rotation.
@@ -164,7 +164,7 @@ protection.
     - push endpoints joining the subscriptions of one browser (if push is enabled).
   - Availability against A1.
   - Denial of service beyond the transport limits below.
-- **Completed in M4** (`packages/blind-store/DESIGN.md`, D-33 to D-36):
+- **The server's side** (`packages/blind-store/DESIGN.md`):
   - **What the server learns, exactly** (the trades above, spelled out). Per object: its collection, its selector and its window, its epoch, whether its roster is members-only, and the sizes of its sealed parts. Per connection: the routing key; the `Origin`; which selectors and windows it queried and watched, and when; one object id per `fetch-event` (a link redeemed, a pointer healed); which link hashes it redeemed, revoked or asked stats for; which mailbox labels it polled or watched. Per account: how many pointers and unlock methods it holds; its session generation and blob token (what changed, never when); and, in `rate_limit_counters`, that it made an object, a link or a drop today — the one table with a routing key beside an action, deleted after two days. Per link: uses, expiry, and its management hash. Everything else is ciphertext or a hash.
   - **What a database copy holds:** the above, plus sealed link payloads and drops until the sweep empties or deletes them (a used-up or expired link's payload at once; the link a week after expiry; a drop at expiry). Objects are never swept: what to keep is the app's decision. No key of any kind is in the database.
   - **The client obligations for cover traffic:** decrypt only what its pointers hold keys for; query the whole area it shows at a precision it fixes; never query by a list of ids; keep `fetch-event` for redeeming and healing. The engine cannot check these; the access package's `queryObjects` and the example app follow them.
@@ -175,7 +175,7 @@ protection.
   - **Live watches leak nothing new:** routing is by the selector a connection already sent; a member-row change is pushed content-free and debounced; the imminent watch carries no parameter at all.
   - **Availability** is not protected against A1 or against a determined flood: the limits are backstops, the daily counters fail open, and a lost LISTEN connection costs live updates (loudly logged, retried), not the service.
 
-## 7. `@microtoll/mailbox` (M3b, built inside M5)
+## 7. `@microtoll/mailbox`
 
 - **Protects:**
   - A1 cannot compute a label (that needs one of the two private keys), attribute a row to an account, or read a bundle (sealed to the recipient, hybrid when the recipient's key is). Labels change monthly, so a stable polling fingerprint lasts at most two months.
