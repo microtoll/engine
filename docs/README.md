@@ -16,8 +16,6 @@ The source of microtoll.dev, of `llms.txt`, and of the snapshot
 - `test/build.test.mjs` — every page renders with no unknown construct,
   every internal link resolves, `llms.txt` lists every page, the committed
   snapshot is fresh.
-- `DESIGN-M5.md` — the design note for the site, the MCP package and the
-  release workflow.
 
 ```
 npm run docs        # build

@@ -23,14 +23,13 @@ Each package carries its own `LICENSE`. Documentation is CC-BY-4.0.
 
 - `THREATMODEL.md` — per-package threat models and honest limits.
 - `docs/` — the source of microtoll.dev, `llms.txt` and the MCP snapshot
-  (`npm run docs`); the design notes `docs/DESIGN-M5.md` and
-  `docs/DESIGN-M6-pqc-scan.md`.
+  (`npm run docs`).
 - Each package's `FORMATS.md` or `DESIGN.md` — its formats, byte for byte.
 - `SECURITY.md`, `CONTRIBUTING.md` — how to report a weakness; the rules and
   the sign-off.
 
-References such as "D-04" in code comments, changelogs and the design notes
-are to the maintainer's decision log, which is kept privately.
+References such as "D-04" in code comments and changelogs are to the
+maintainer's decision log, which is kept privately.
 
 ## Examples and deployment
 

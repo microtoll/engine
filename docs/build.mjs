@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * The docs site build (DESIGN-M5 §2, D-38): Markdown from docs/pages/ and
+ * The docs site build: Markdown from docs/pages/ and
  * the repository's own documents, rendered to static HTML in docs/site/
  * with one stylesheet and no script, plus llms.txt and llms-full.txt for
  * agents, plus the snapshot @microtoll/mcp ships (generated/docs.json and
