@@ -8,7 +8,7 @@ This project is small and its subject is exacting, so the rules are short.
 - Security reports go by `SECURITY.md`, never to a public issue.
 - Disagreements about cryptography, licensing or scope are settled the way
   every decision here is settled: written up with the reasoning in
-  `DECISIONS.md`, then decided by the maintainer.
+  an issue, then decided by the maintainer.
 - Harassment, personal attacks and discrimination of any kind are not
   tolerated. The maintainer will remove comments and, if needed, block
   accounts. To report conduct, write to security@microtoll.dev with

@@ -16,3 +16,10 @@ docs/site/
 
 # Local notes for Claude Code; never committed (they name what the repository must not).
 CLAUDE.local.md
+
+# The maintainer's working documents: kept on the maintainer's machine, not published.
+/DECISIONS.md
+/LAUNCH.md
+/docs/LAUNCH.md
+/microtoll-build-plan.md
+/CLAUDE.md
