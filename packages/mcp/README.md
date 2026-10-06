@@ -28,6 +28,13 @@ server.
 | `microtoll_read_doc({ path })` | One page as Markdown, by the `path` a search result gives (`packages/access.html`) or from `llms.txt`. |
 | `microtoll_scaffold({ directory, namespace?, origin?, name? })` | Writes the notes starter into an **empty** directory: `notes.js`, `page.js`, `index.html`, `docker-compose.yml`, `nginx.conf`, `package.json`, `README.md`, with the namespace and origin filled in. Writes files and nothing else; refuses a directory that is not empty; never overwrites. The next steps (`npm install`, `docker compose up`) come back as text for the person to run. |
 
+Each tool also carries a plain `title` and the specification's behaviour
+hints (`annotations`), which a host may use to decide when to ask the
+person first. The two documentation tools only read; the scaffold writes
+files but only adds them (it never deletes or overwrites), and a second
+call with the same arguments changes nothing; none of the three uses the
+network.
+
 ## What it speaks
 
 JSON-RPC 2.0, one message per line: `initialize` (protocol version
@@ -40,4 +47,5 @@ in `src/protocol.js`, tested against a transcript of what a host sends.
 
 `npm test`: the protocol over a real child process, the search and the
 page reader over the shipped snapshot, the scaffold into a temporary
-directory (placeholders filled, a non-empty directory refused).
+directory (placeholders filled, a non-empty directory refused), and each
+tool's title and behaviour hints against what the tool does.

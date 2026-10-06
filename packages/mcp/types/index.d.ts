@@ -4,10 +4,20 @@ export const VERSION: string;
 export const INSTRUCTIONS: string;
 
 export interface ToolResult { text: string; isError?: boolean; }
+/** The behaviour hints of the MCP specification ("ToolAnnotations", 2025-06-18). */
+export interface ToolAnnotations {
+  title?: string;
+  readOnlyHint?: boolean;
+  destructiveHint?: boolean;
+  idempotentHint?: boolean;
+  openWorldHint?: boolean;
+}
 export interface Tool {
   name: string;
+  title?: string;
   description: string;
   inputSchema: object;
+  annotations?: ToolAnnotations;
   handler(args: Record<string, unknown>): string | ToolResult | Promise<string | ToolResult>;
 }
 export interface JsonRpcMessage { jsonrpc?: string; id?: string | number | null; method?: string; params?: unknown; }

@@ -48,7 +48,7 @@ test('a host session: initialize, initialized, tools/list, a search, a page, pin
     h.send({ jsonrpc: '2.0', method: 'notifications/initialized' });
     const list = await h.ask({ jsonrpc: '2.0', id: 2, method: 'tools/list' });
     assert.deepEqual(list.result.tools.map((t) => t.name), ['microtoll_search_docs', 'microtoll_read_doc', 'microtoll_scaffold']);
-    for (const t of list.result.tools) { assert.equal(t.inputSchema.type, 'object'); assert.ok(t.description.length > 40); }
+    for (const t of list.result.tools) { assert.equal(t.inputSchema.type, 'object'); assert.ok(t.description.length > 40); assert.ok(t.title); assert.equal(typeof t.annotations.readOnlyHint, 'boolean'); }
     const search = await h.ask({ jsonrpc: '2.0', id: 3, method: 'tools/call', params: { name: 'microtoll_search_docs', arguments: { query: 'rotation removed member key' } } });
     assert.equal(search.result.isError, false);
     assert.match(search.result.content[0].text, /packages\/access/);
