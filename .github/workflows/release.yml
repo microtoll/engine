@@ -1,6 +1,10 @@
 # The release (DECISIONS.md D-41): on a signed v* tag, the full check
 # against Postgres, then every package published to npm with provenance
 # through GitHub's OIDC -- no long-lived token in the repository.
+# A signed mcp-v* tag releases @microtoll/mcp alone, which versions on its
+# own (D-48, D-49): the same check, then only that package. Both tag
+# patterns must be in the "protect release tags" ruleset, which refuses an
+# unsigned tag and any move or deletion.
 #
 # INERT UNTIL THE GATE OPENS. It runs only when the repository variable
 # PUBLISH_GATE_OPEN is "true", which the founder sets after recording in
@@ -13,7 +17,7 @@ name: Release
 
 on:
   push:
-    tags: ['v*']
+    tags: ['v*', 'mcp-v*']
 
 permissions:
   contents: read
@@ -47,16 +51,33 @@ jobs:
           node-version: '24'
           cache: npm
           registry-url: https://registry.npmjs.org
-      # The tag names the version every package carries (lockstep, D-41).
+      # The tag names the version of the packages it releases, and decides
+      # which those are.
       - name: The tag matches the package versions
+        id: tag
         run: |
-          tag="${GITHUB_REF_NAME#v}"
-          # The five lockstep packages carry the tag's version (D-41); mcp has
-          # its own (D-48) and is published whenever its version is new.
-          for p in crypto-core identity access mailbox blind-store; do
-            v=$(node -p "require('./packages/$p/package.json').version")
-            [ "$v" = "$tag" ] || { echo "packages/$p is $v, the tag is $tag"; exit 1; }
-          done
+          case "$GITHUB_REF_NAME" in
+            mcp-v*)
+              # @microtoll/mcp alone, at the tag's version (D-49).
+              tag="${GITHUB_REF_NAME#mcp-v}"
+              v=$(node -p "require('./packages/mcp/package.json').version")
+              [ "$v" = "$tag" ] || { echo "packages/mcp is $v, the tag is $tag"; exit 1; }
+              echo "packages=mcp" >> "$GITHUB_OUTPUT"
+              ;;
+            v*)
+              # The five lockstep packages carry the tag's version (D-41); mcp has
+              # its own (D-48) and is published whenever its version is new.
+              tag="${GITHUB_REF_NAME#v}"
+              for p in crypto-core identity access mailbox blind-store; do
+                v=$(node -p "require('./packages/$p/package.json').version")
+                [ "$v" = "$tag" ] || { echo "packages/$p is $v, the tag is $tag"; exit 1; }
+              done
+              echo "packages=crypto-core identity access mailbox blind-store mcp" >> "$GITHUB_OUTPUT"
+              ;;
+            *)
+              echo "$GITHUB_REF_NAME is not a release tag"; exit 1
+              ;;
+          esac
           for p in packages/*/package.json; do
             node -e "if (require('./$p').private) { console.error('$p is still private'); process.exit(1); }"
           done
@@ -75,8 +96,14 @@ jobs:
       # founder approves it on npm, so a compromised build run cannot publish
       # on its own. Each package's own version is read, since mcp's differs.
       - name: Stage each package with provenance, skipping versions already on the registry
+        # The list comes in through the environment rather than as an
+        # expression written into the script, as GitHub's security hardening
+        # guide advises against script injection.
+        env:
+          PACKAGES: ${{ steps.tag.outputs.packages }}
         run: |
-          for p in crypto-core identity access mailbox blind-store mcp; do
+          [ -n "$PACKAGES" ] || { echo "no packages chosen by the tag step"; exit 1; }
+          for p in $PACKAGES; do
             v=$(node -p "require('./packages/$p/package.json').version")
             if npm view "@microtoll/$p@$v" version >/dev/null 2>&1; then
               echo "@microtoll/$p@$v is already published; skipped."
